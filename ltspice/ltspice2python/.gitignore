@@ -1,0 +1,16 @@
+.venv/*
+.idea/*
+.vscode/*
+*.op.raw
+*.log
+*.net
+*.tar.gz
+*.whl
+*.pyc
+ltspice.egg-info/*
+dist/*
+build/*
+*.plt
+__pycache__
+.python-version
+.tox/*

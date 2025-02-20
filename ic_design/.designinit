@@ -1,0 +1,5 @@
+PDK_ROOT=/foss/pdks
+PDK=sg13g2
+PDKPATH=/foss/pdks/sg13g2
+export KLAYOUT_HOME=/foss/designs/.klayout
+
