@@ -1,0 +1,40 @@
+project:
+  type: default
+  title: "Design of an Analog-Digital-Converter after the ADS1115"
+  output-dir: outputs
+
+author:
+  - name: Miko Kranich
+    email: mkranich@stud.hs-bremen.de
+    affiliations: 
+    - name: Hochschule Bremen
+      address: Neustadtswall 30a
+      postal-code: 28299
+      city: Bremen
+  - name: Lars Nickisch
+    email: lnickisch@stud.hs-bremen.de
+  - name: Priyanka Toyni 
+    email: ptoyni@stud.hs-bremen.de
+  - name: Aftab Nagarji 
+    email: anagarji@stud.hs-bremen.de
+
+website:
+  navbar:
+    search: true
+
+date: today
+date-format: iso
+
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-title: Contents
+    toc-depth: 5
+    toc-expand: 5
+    number-sections: true
+    number-depth: 3
+    code-fold: true
+    css: styles.css
+
+bibliography: references.bib
