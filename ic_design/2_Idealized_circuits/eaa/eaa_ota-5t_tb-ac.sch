@@ -1,5 +1,4 @@
-v {xschem version=3.4.5 file_version=1.2
-}
+v {xschem version=3.4.6 file_version=1.2}
 G {}
 K {}
 V {}
@@ -104,7 +103,6 @@ descr="annotate OP"
 tclcommand="set show_hidden_texts 1; xschem annotate_op"
 }
 C {lab_pin.sym} 520 -380 0 0 {name=p2 sig_type=std_logic lab=v_dd}
-C {ota-5t.sym} 1050 -630 0 0 {name=xota}
 C {devices/vsource.sym} 600 -330 0 0 {name=Vss value=0}
 C {devices/gnd.sym} 600 -280 0 0 {name=l1 lab=GND}
 C {lab_pin.sym} 600 -380 0 0 {name=p1 sig_type=std_logic lab=v_ss}
