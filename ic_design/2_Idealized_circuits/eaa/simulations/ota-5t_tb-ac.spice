@@ -1,0 +1,49 @@
+** sch_path: /foss/designs/analog-circuit-design/xschem/ota-5t_tb-ac.sch
+**.subckt ota-5t_tb-ac
+Vdd v_dd GND 1.5
+Vss v_ss GND 0
+Vin v_in v_ss dc 0.8 ac 1
+I0 v_dd net2 20u
+.save v(v_in)
+.save v(v_out)
+C1 v_out v_ss 50f m=1
+XM5 net1 net2 v_ss v_ss sg13_lv_nmos w=0.5u l=5u ng=1 m=1
+XM4 v_out gate_p v_dd v_dd sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+XM1 gate_p v_in net1 v_ss sg13_lv_nmos w=2u l=5u ng=1 m=1
+XM2 v_out net3 net1 v_ss sg13_lv_nmos w=2u l=5u ng=1 m=1
+XM3 gate_p gate_p v_dd v_dd sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+**** begin user architecture code
+ .lib cornerMOSlv.lib mos_tt
+
+
+
+.temp 27
+.control
+option sparse
+save all
+op
+write ota-5t_tb-ac.raw
+set appendwrite
+
+ac dec 101 1k 100MEG
+write ota-5t_tb-ac.raw
+plot 20*log10(v_out)
+
+meas ac dcgain MAX vmag(v_out) FROM=10 TO=10k
+let f3db = dcgain/sqrt(2)
+meas ac fbw WHEN vmag(v_out)=f3db FALL=1
+let gainerror=(dcgain-1)/1
+print dcgain
+print fbw
+print gainerror
+
+noise v(v_out) Vin dec 101 1k 100MEG
+print onoise_total
+
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end
