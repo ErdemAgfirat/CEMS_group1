@@ -27,10 +27,9 @@ citation:
 bibliography: references.bib
 ---
 
-{{< include /content/_intro.qmd >}}
-{{< include /content/_sec_first_steps.qmd >}}
-{{< include /content/_fundamentals_of_sampling_&_quantization.qmd >}}
-{{< include /content/_oversampling.qmd >}}
-{{< include /content/_noise_shaping.qmd >}}
-{{< include /content/_digital_filter.qmd >}}
-{{< include /content/_decimation.qmd >}}
+{{< include content/_intro.qmd >}}
+{{< include content/_fundamentals_of_sampling_&_quantization.qmd >}}
+{{< include content/_oversampling.qmd >}}
+{{< include content/_noise_shaping.qmd >}}
+{{< include content/_digital_filter.qmd >}}
+{{< include content/_decimation.qmd >}}
