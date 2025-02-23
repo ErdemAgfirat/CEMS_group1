@@ -1,1 +1,51 @@
-hi
+# Introduction
+
+In an increasingly digitalized world, microprocessors and digital systems form the core of almost all modern control and communication systems. Whether in smartphones, industrial automation, or high-speed networks, digital processors handle central computing tasks and make real-time decisions. However, while processing occurs purely in the digital domain, the physical world remains analog. Sensors, actuators, and other external devices generate continuous analog signals that must first be converted into a discrete form for digital processing [@bajdechi2004systematic].
+
+This is where mixed-signal systems come into play, bridging the gap between the analog and digital domains. As the "brain" of nearly every control and communication system, the digital processor interacts with the external world through analog-to-digital converters (ADCs) for receiving analog signals and digital-to-analog converters (DACs) for sending analog outputs [@bajdechi2004systematic].
+
+As shown in @fig-adc-conversion, the general block diagram of an ADC designed for converting low-pass signals consists of an anti-aliasing filter, a sampler, and a quantizer [@delarosa2013].
+
+![A/D Conversion](figures/adc.drawio.svg){#fig-adc-conversion}
+
+## Sampling
+
+A set of key components is essential for converting an analog signal into a discrete-time representation. A fundamental aspect of this process is sampling, as it ensures the conversion of an analog signal into a discrete-time signal [@bajdechi2004systematic].
+
+In practical applications, sampling can occur in one of three modes. If the highest frequency present in the signal is limited to $f_{\max}$, the sampling approaches are categorized as follows [@williams2006electronic]:
+
+- Critically sampled: $f_s = 2 f_{\max},$
+- Oversampled: $f_s > 2 f_{\max},$
+- Undersampled: $f_s < 2 f_{\max}.$
+
+Critical sampling refers to setting the sampling rate to the lowest possible value that still satisfies the sampling theorem. If this condition is not met, aliasing occurs, preventing accurate reconstruction of the input signal due to overlapping frequency components. To ensure that the highest frequency of the analog signal remains below the Nyquist frequency, an analog prefilter - known as an anti-aliasing filter - is typically placed between the signal source and the ADC. A well-designed anti-aliasing filter effectively attenuates signal energy above the Nyquist frequency. In practice, the input signal is often affected by noise, which may contain frequency components outside the desired range. Therefore, it is also essential that the filter removes out-of-band noise, as it could otherwise alias into the signal band after sampling and degrade the quality of the sampled values [@pavan2017understanding]. Undersampling can occur either deliberately or unintentionally. In both scenarios, the sampling rate is chosen to be lower than the Nyquist frequency. As a result, aliasing takes place [@williams2006electronic].
+
+Furthermore, it is important to note that sampling results in a periodic repetition of the spectrum. The following example illustrates this:
+
+![Periodic repetition of the spectrum](figures/periodic_spectrum.png){#fig-Periodic-repetition-of-the-spectrum}
+
+If the conditions of the sampling theorem are met, the input signal can be fully reconstructed by filtering with an ideal low-pass filter with a cutoff frequency ${{\omega_g}}$ and an amplitude of ${{T_a}}$ [@goldenbaum2022grundlagen].
+
+$$
+H_{LP}(\omega) = T_a \, \operatorname{rect}(\omega / 2\omega_g). \tag{1}
+$$
+
+![Reconstruction by filtering with a low-pass filter](figures/reconstruction.png){#fig-Reconstruction-by-filtering-with-a-low-pass-filter}
+
+In the frequency domain, an ideal low-pass filter with a specific cutoff frequency is used to fully reconstruct the signal. Since this corresponds to a multiplication with a rectangular function in the frequency domain, it results in a convolution with the sinc function in the time domain. The sinc interpolation is a series expansion in which the maxima of the individual sinc functions coincide with the sampled values. Each sample point is associated with a corresponding sinc function. Consequently, the original function can be reconstructed as a weighted sum of sinc functions, where each sample value corresponds to a sinc function shifted by the sampling period $T_a$. The superposition of these sinc functions then reconstructs the original function [@meyer2019kommunikationstechnik].
+
+![Reconstruction of a sampled signal using sinc interpolation](figures/sinc_interpolation.png){#Reconstruction-of-a-sampled-signal-using-sinc-interpolation}
+
+## Quantization
+
+Quantization is a nonlinear, memoryless operation [@pavan2017understanding]. It refers to the conversion of a continuous-valued signal into a signal with a finite set of values [@goldenbaum2022grundlagen]. Unlike the sampling process, quantization is an irreversible operation, leading to a loss in the resolution of the digitized signal [@delarosa2011sigmadelta].
+
+The quantization operator is typically described by a quantization characteristic:
+
+![Quantization characteristic [@goldenbaum2022grundlagen]](figures/quantization_characteristic.drawio.svg){#fig-Quantization-characteristic width=60%}
+
+The quantization level **$Q$** defines the respective quantization intervals. These intervals are determined by the word length **$q$** (also referred to as the bit width). The relationship is given by **$Q = 2^q$**. The greater the word length, the more quantization intervals exist. This means that the quantization becomes more precise, as the difference between the actual value and the quantized value continuously decreases [@goldenbaum2022grundlagen].  
+
+The **delta ($\Delta$)** represents the accuracy and is defined as **$\Delta = 2/Q$**. This implies that as **$Q$** increases, the word length **$q$** also grows, and **$\Delta$** becomes smaller. Since the step size between quantization levels decreases, the resolution improves [@goldenbaum2022grundlagen]. After quantization, digital signals are generated. Each quantization interval is assigned a unique code number.
+
+The quantization process also imposes a limitation on the performance of an ideal ADC, as an error is introduced during the conversion of the input signal from a continuous to a discrete amplitude representation. This error, commonly known as quantization error, will be discussed in more detail in a later chapter.

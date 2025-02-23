@@ -3,28 +3,6 @@ project:
   title: "Design of an Analog-Digital-Converter after the ADS1115"
   output-dir: outputs
 
-author:
-  - name: Miko Kranich
-    email: mkranich@stud.hs-bremen.de
-    affiliations: 
-    - name: Hochschule Bremen
-      address: Neustadtswall 30a
-      postal-code: 28299
-      city: Bremen
-  - name: Lars Nickisch
-    email: lnickisch@stud.hs-bremen.de
-  - name: Priyanka Toyni 
-    email: ptoyni@stud.hs-bremen.de
-  - name: Aftab Nagarji 
-    email: anagarji@stud.hs-bremen.de
-
-website:
-  navbar:
-    search: true
-
-date: today
-date-format: iso
-
 format:
   html:
     toc: true
@@ -33,8 +11,39 @@ format:
     toc-depth: 5
     toc-expand: 5
     number-sections: true
+    fig-cap-location: bottom  # Bildunterschriften unter den Bildern anzeigen
     number-depth: 3
     code-fold: true
+    default-fig-cap: "Figure"  # Automatische Nummerierung von Abbildungen
     css: styles.css
 
 bibliography: references.bib
+
+title: Analog Circuit Design
+author:
+    - name: Erdem Agfirat
+      email: eagfirat@stud.hs-bremen.de
+      corresponding: true
+      roles: "author"
+      affiliation:
+        - name: Hochschule Bremen
+          city: Bremen
+          state: Deutschland
+          url: https://www.hs-bremen.de/die-hsb/fakultaeten/elektrotechnik-und-informatik/forschung-und-transfer/institut-fuer-nachrichtentechnik/
+    - name: Atakan Baydogan
+      roles: "author"
+      email: abaydogan@stud.hs-bremen.de
+    - name: Agah Osman Celebi
+      roles: "author"
+      email: abaydogan@stud.hs-bremen.de
+license: "Apache-2.0 license"
+copyright:
+  holder: "Erdem Agfirat, Atakan Baydogan und Agah Osman Celebi, Hochschule Bremen."
+  year: 2024-2025
+
+date: today
+date-format: iso
+
+website:
+  navbar:
+    search: true

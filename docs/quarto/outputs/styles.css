@@ -1,0 +1,10 @@
+/*controlling captions */
+figcaption {
+    margin: auto;
+    text-align: center;
+}
+
+/*Justify all text in main segment of html output*/
+main {
+    text-align: justify;
+}

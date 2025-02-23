@@ -1,0 +1,19 @@
+# Delta-Sigma ADCs 
+
+![Fundamental concepts of the Delta-Sigma ADC](figures/concepts_delta_sigma_adc.drawio.svg){#fig-Fundamental-concepts-of-the-Delta-Sigma-ADC}
+
+A Delta-Sigma ADC leverages advanced signal processing techniques to achieve higher resolution than conventional ADCs. Oversampling increases the sampling rate beyond the Nyquist frequency, spreading quantization noise over a wider frequency range. Noise shaping further pushes this noise into higher frequencies, where it can be effectively removed by digital filtering. Finally, decimation reduces the sample rate while preserving the signal's integrity, resulting in a high-precision digital output.
+
+## Oversampling
+
+If an ADC operates faster than $2f_{\text{max}}$, it is considered an **oversampled ADC**. In this case, the **oversampling ratio (OSR)** is a design parameter that indicates how many times $f_s$ is larger than the minimal value required by the Nyquist theorem.
+
+$$
+OSR = \frac{f_s}{2 f_{\text{max}}}, \tag{2}
+$$
+
+## Noise shaping
+
+## Digital Filtering
+
+## Decimation
