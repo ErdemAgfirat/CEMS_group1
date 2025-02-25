@@ -197,21 +197,21 @@ Figure&nbsp;1: A/D Conversion
 <div id="fig-Periodic-repetition-of-the-spectrum" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-Periodic-repetition-of-the-spectrum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figures/periodic_spectrum.png" class="img-fluid figure-img">
+<img src="figures/periodic_spectrum.svg" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Periodic-repetition-of-the-spectrum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Periodic repetition of the spectrum
 </figcaption>
 </figure>
 </div>
-<p>If the conditions of the sampling theorem are met, the input signal can be fully reconstructed by filtering with an ideal low-pass filter with a cutoff frequency <span class="math inline">\({{\omega_g}}\)</span> and an amplitude of <span class="math inline">\({{T_a}}\)</span> <span class="citation" data-cites="goldenbaum2022grundlagen">(<a href="#ref-goldenbaum2022grundlagen" role="doc-biblioref">Goldenbaum 2022</a>)</span>.</p>
+<p>If the conditions of the sampling theorem are met, the input signal can be fully reconstructed by filtering with an ideal low-pass filter with a cutoff frequency <span class="math inline">\({{\omega_g}}\)</span> and an amplitude of <span class="math inline">\({{T_a}}\)</span> <span class="citation" data-cites="goldenbaum2022grundlagen">(<a href="#ref-goldenbaum2022grundlagen" role="doc-biblioref">Goldenbaum 2022</a>)</span>:</p>
 <p><span class="math display">\[
 H_{LP}(\omega) = T_a \, \operatorname{rect}(\omega / 2\omega_g). \tag{1}
 \]</span></p>
 <div id="fig-Reconstruction-by-filtering-with-a-low-pass-filter" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-Reconstruction-by-filtering-with-a-low-pass-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figures/reconstruction.png" class="img-fluid figure-img">
+<img src="figures/reconstruction.svg" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Reconstruction-by-filtering-with-a-low-pass-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: Reconstruction by filtering with a low-pass filter
@@ -219,10 +219,14 @@ Figure&nbsp;3: Reconstruction by filtering with a low-pass filter
 </figure>
 </div>
 <p>In the frequency domain, an ideal low-pass filter with a specific cutoff frequency is used to fully reconstruct the signal. Since this corresponds to a multiplication with a rectangular function in the frequency domain, it results in a convolution with the sinc function in the time domain. The sinc interpolation is a series expansion in which the maxima of the individual sinc functions coincide with the sampled values. Each sample point is associated with a corresponding sinc function. Consequently, the original function can be reconstructed as a weighted sum of sinc functions, where each sample value corresponds to a sinc function shifted by the sampling period <span class="math inline">\(T_a\)</span>. The superposition of these sinc functions then reconstructs the original function <span class="citation" data-cites="meyer2019kommunikationstechnik">(<a href="#ref-meyer2019kommunikationstechnik" role="doc-biblioref">Meyer 2019</a>)</span>.</p>
-<div id="Reconstruction-of-a-sampled-signal-using-sinc-interpolation" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="figures/sinc_interpolation.png" class="img-fluid figure-img"></p>
-<figcaption>Reconstruction of a sampled signal using sinc interpolation</figcaption>
+<div id="fig-Reconstruction-of-a-sampled-signal-using-sinc-interpolation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Reconstruction-of-a-sampled-signal-using-sinc-interpolation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/sinc_interpolation.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Reconstruction-of-a-sampled-signal-using-sinc-interpolation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Reconstruction of a sampled signal using sinc interpolation
+</figcaption>
 </figure>
 </div>
 </section>
@@ -236,7 +240,7 @@ Figure&nbsp;3: Reconstruction by filtering with a low-pass filter
 <img src="figures/quantization_characteristic.drawio.svg" class="img-fluid figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Quantization-characteristic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Quantization characteristic <span class="citation" data-cites="goldenbaum2022grundlagen">(<a href="#ref-goldenbaum2022grundlagen" role="doc-biblioref">Goldenbaum 2022</a>)</span>
+Figure&nbsp;5: Quantization characteristic <span class="citation" data-cites="goldenbaum2022grundlagen">(<a href="#ref-goldenbaum2022grundlagen" role="doc-biblioref">Goldenbaum 2022</a>)</span>
 </figcaption>
 </figure>
 </div>
@@ -253,7 +257,7 @@ Figure&nbsp;4: Quantization characteristic <span class="citation" data-cites="go
 <img src="figures/concepts_delta_sigma_adc.drawio.svg" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Fundamental-concepts-of-the-Delta-Sigma-ADC-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Fundamental concepts of the Delta-Sigma ADC
+Figure&nbsp;6: Fundamental concepts of the Delta-Sigma ADC
 </figcaption>
 </figure>
 </div>
@@ -264,6 +268,29 @@ Figure&nbsp;5: Fundamental concepts of the Delta-Sigma ADC
 <p><span class="math display">\[
 OSR = \frac{f_s}{2 f_{\text{max}}}, \tag{2}
 \]</span></p>
+<p>where <span class="math inline">\(f_{\text{max}}\)</span> is the maximum signal frequency, which is the signal bandwidth [4].</p>
+<p>Oversampled A/D converters impose significantly less stringent requirements on the filter compared to Nyquist rate converters, as the signal is sampled at a frequency that far exceeds its bandwidth <span class="citation" data-cites="Boser1988">(<a href="#ref-Boser1988" role="doc-biblioref">Boser and Wooley 1988</a>)</span>. One advantage of oversampling ADCs is that they simplify the requirements for the AAF. It is important to note that the AAF for a Nyquist converter must have a sharp transition band, which often results in phase distortion for signal components near the cut-off frequency <span class="citation" data-cites="delarosa2011sigmadelta">(<a href="#ref-delarosa2011sigmadelta" role="doc-biblioref">Rosa 2011</a>)</span>.</p>
+<div id="fig-Antialiasing-filter-for-oversampling-ADCs" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Antialiasing-filter-for-oversampling-ADCs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/oversampling.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Antialiasing-filter-for-oversampling-ADCs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Antialiasing filter for oversampling ADCs
+</figcaption>
+</figure>
+</div>
+<p>However, oversampling has another effect that must be considered: noise. This phenomenon, known as quantization noise, arises for the following reason: while the ADC input is a continuous signal with an infinite range of possible values, the digital output is discrete, with the number of distinct states determined by the converter’s resolution. As a result, the analog-to-digital conversion process inevitably discards some information, introducing a certain degree of distortion into the signal. The associated error varies randomly, with a magnitude of up to ±1 LSB <span class="citation" data-cites="Clifford2016">(<a href="#ref-Clifford2016" role="doc-biblioref">Clifford 2016</a>)</span>. The following Figure shows the signal with a quantization noise:</p>
+<div id="fig-Quantization-noise-in-Nyquist-rate-ADCs" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Quantization-noise-in-Nyquist-rate-ADCs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/quantization_noise.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Quantization-noise-in-Nyquist-rate-ADCs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Quantization noise in Nyquist-rate ADCs
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="noise-shaping" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="noise-shaping"><span class="header-section-number">2.2</span> Noise shaping</h2>
@@ -280,6 +307,12 @@ OSR = \frac{f_s}{2 f_{\text{max}}}, \tag{2}
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">2.4 Decimation</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-bajdechi2004systematic" class="csl-entry" role="listitem">
 Bajdechi, Ovidiu. 2004. <span>“Systematic Design of Sigma-Delta Analog-to-Digital Converters.”</span> In <em>Analog Circuit Design: Sensor and Actuator Interface Electronics, Integrated High-Voltage Electronics and Power Management, Low-Power and High-Resolution ADC’s</em>, edited by Michiel Steyaert, Arthur H. M. van Roermund, and Herman Casier, 293–326. Springer. <a href="https://doi.org/10.1007/978-1-4020-7997-5_13">https://doi.org/10.1007/978-1-4020-7997-5_13</a>.
+</div>
+<div id="ref-Boser1988" class="csl-entry" role="listitem">
+Boser, B. E., and B. A. Wooley. 1988. <span>“The Design of Sigma-Delta Modulation Analog-to-Digital Converters.”</span> <em>IEEE Journal of Solid-State Circuits</em> 23 (6): 1298–308. <a href="https://doi.org/10.1109/4.90025">https://doi.org/10.1109/4.90025</a>.
+</div>
+<div id="ref-Clifford2016" class="csl-entry" role="listitem">
+Clifford, Michael. 2016. <span>“Fundamental Principles Behind the Sigma-Delta ADC Topology: Part 1.”</span> Analog Devices (AD). <a href="https://www.analog.com/en/resources/technical-articles/behind-the-sigma-delta-adc-topology.html">https://www.analog.com/en/resources/technical-articles/behind-the-sigma-delta-adc-topology.html</a>.
 </div>
 <div id="ref-goldenbaum2022grundlagen" class="csl-entry" role="listitem">
 Goldenbaum, Prof. Dr.-Ing. Mario. 2022. <em>Grundlagen Der Informationstechnik</em>.

@@ -22,19 +22,19 @@ Critical sampling refers to setting the sampling rate to the lowest possible val
 
 Furthermore, it is important to note that sampling results in a periodic repetition of the spectrum. The following example illustrates this:
 
-![Periodic repetition of the spectrum](figures/periodic_spectrum.png){#fig-Periodic-repetition-of-the-spectrum}
+![Periodic repetition of the spectrum](figures/periodic_spectrum.svg){#fig-Periodic-repetition-of-the-spectrum}
 
-If the conditions of the sampling theorem are met, the input signal can be fully reconstructed by filtering with an ideal low-pass filter with a cutoff frequency ${{\omega_g}}$ and an amplitude of ${{T_a}}$ [@goldenbaum2022grundlagen].
+If the conditions of the sampling theorem are met, the input signal can be fully reconstructed by filtering with an ideal low-pass filter with a cutoff frequency ${{\omega_g}}$ and an amplitude of ${{T_a}}$ [@goldenbaum2022grundlagen]:
 
 $$
 H_{LP}(\omega) = T_a \, \operatorname{rect}(\omega / 2\omega_g). \tag{1}
 $$
 
-![Reconstruction by filtering with a low-pass filter](figures/reconstruction.png){#fig-Reconstruction-by-filtering-with-a-low-pass-filter}
+![Reconstruction by filtering with a low-pass filter](figures/reconstruction.svg){#fig-Reconstruction-by-filtering-with-a-low-pass-filter}
 
 In the frequency domain, an ideal low-pass filter with a specific cutoff frequency is used to fully reconstruct the signal. Since this corresponds to a multiplication with a rectangular function in the frequency domain, it results in a convolution with the sinc function in the time domain. The sinc interpolation is a series expansion in which the maxima of the individual sinc functions coincide with the sampled values. Each sample point is associated with a corresponding sinc function. Consequently, the original function can be reconstructed as a weighted sum of sinc functions, where each sample value corresponds to a sinc function shifted by the sampling period $T_a$. The superposition of these sinc functions then reconstructs the original function [@meyer2019kommunikationstechnik].
 
-![Reconstruction of a sampled signal using sinc interpolation](figures/sinc_interpolation.png){#Reconstruction-of-a-sampled-signal-using-sinc-interpolation}
+![Reconstruction of a sampled signal using sinc interpolation](figures/sinc_interpolation.svg){#fig-Reconstruction-of-a-sampled-signal-using-sinc-interpolation}
 
 ## Quantization
 

@@ -12,6 +12,16 @@ $$
 OSR = \frac{f_s}{2 f_{\text{max}}}, \tag{2}
 $$
 
+where $f_{\text{max}}$ is the maximum signal frequency, which is the signal bandwidth [4]. 
+
+Oversampled A/D converters impose significantly less stringent requirements on the filter compared to Nyquist rate converters, as the signal is sampled at a frequency that far exceeds its bandwidth [@Boser1988]. One advantage of oversampling ADCs is that they simplify the requirements for the AAF. It is important to note that the AAF for a Nyquist converter must have a sharp transition band, which often results in phase distortion for signal components near the cut-off frequency [@delarosa2011sigmadelta].
+
+![Antialiasing filter for oversampling ADCs](figures/oversampling.svg){#fig-Antialiasing-filter-for-oversampling-ADCs}
+
+However, oversampling has another effect that must be considered: noise. This phenomenon, known as quantization noise, arises for the following reason: while the ADC input is a continuous signal with an infinite range of possible values, the digital output is discrete, with the number of distinct states determined by the converter’s resolution. As a result, the analog-to-digital conversion process inevitably discards some information, introducing a certain degree of distortion into the signal. The associated error varies randomly, with a magnitude of up to ±1 LSB [@Clifford2016]. The following Figure shows the signal with a quantization noise:
+
+![Quantization noise in Nyquist-rate ADCs](figures/quantization_noise.svg){#fig-Quantization-noise-in-Nyquist-rate-ADCs}
+
 ## Noise shaping
 
 ## Digital Filtering
