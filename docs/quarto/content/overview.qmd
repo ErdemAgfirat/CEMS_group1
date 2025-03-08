@@ -1,4 +1,4 @@
-# Introduction
+# Overview
 
 In an increasingly digitalized world, microprocessors and digital systems form the core of almost all modern control and communication systems. Whether in smartphones, industrial automation, or high-speed networks, digital processors handle central computing tasks and make real-time decisions. However, while processing occurs purely in the digital domain, the physical world remains analog. Sensors, actuators, and other external devices generate continuous analog signals that must first be converted into a discrete form for digital processing [@bajdechi2004systematic].
 
