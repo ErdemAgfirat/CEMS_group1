@@ -175,18 +175,18 @@ window.Quarto = {
   <ul>
   <li><a href="#operating-principle" id="toc-operating-principle" class="nav-link" data-scroll-target="#operating-principle"><span class="header-section-number">5.3.1</span> Operating Principle</a></li>
   </ul></li>
-  <li><a href="#ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator" id="toc-ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator" class="nav-link" data-scroll-target="#ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator"><span class="header-section-number">5.4</span> LTSpice Simulation of an Idealized Second-Order Sigma-Delta Modulator</a>
-  <ul>
-  <li><a href="#key-components-and-operation" id="toc-key-components-and-operation" class="nav-link" data-scroll-target="#key-components-and-operation"><span class="header-section-number">5.4.1</span> Key Components and Operation</a></li>
+  <li><a href="#area-efficiency-and-frequency-control-in-switched-capacitor-circuits" id="toc-area-efficiency-and-frequency-control-in-switched-capacitor-circuits" class="nav-link" data-scroll-target="#area-efficiency-and-frequency-control-in-switched-capacitor-circuits"><span class="header-section-number">5.4</span> Area Efficiency and Frequency Control in Switched Capacitor Circuits</a></li>
   </ul></li>
-  <li><a href="#output-signals-of-the-first-and-second-integrator-stages" id="toc-output-signals-of-the-first-and-second-integrator-stages" class="nav-link" data-scroll-target="#output-signals-of-the-first-and-second-integrator-stages"><span class="header-section-number">5.5</span> Output Signals of the First and Second Integrator Stages</a>
+  <li><a href="#ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator" id="toc-ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator" class="nav-link" data-scroll-target="#ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator"><span class="header-section-number">6</span> LTSpice Simulation of an Idealized Second-Order Sigma-Delta Modulator</a>
   <ul>
-  <li><a href="#integrator-1-output---vvx1" id="toc-integrator-1-output---vvx1" class="nav-link" data-scroll-target="#integrator-1-output---vvx1"><span class="header-section-number">5.5.1</span> Integrator 1 Output - V(vx1)</a></li>
-  <li><a href="#integrator-2-output---vvx2" id="toc-integrator-2-output---vvx2" class="nav-link" data-scroll-target="#integrator-2-output---vvx2"><span class="header-section-number">5.5.2</span> Integrator 2 Output - V(vx2)</a></li>
-  <li><a href="#output-waveforms-visualization" id="toc-output-waveforms-visualization" class="nav-link" data-scroll-target="#output-waveforms-visualization"><span class="header-section-number">5.5.3</span> Output Waveforms Visualization</a></li>
-  <li><a href="#interpretation-of-results" id="toc-interpretation-of-results" class="nav-link" data-scroll-target="#interpretation-of-results"><span class="header-section-number">5.5.4</span> Interpretation of Results</a></li>
+  <li><a href="#key-components-and-operation" id="toc-key-components-and-operation" class="nav-link" data-scroll-target="#key-components-and-operation"><span class="header-section-number">6.1</span> Key Components and Operation</a></li>
+  <li><a href="#output-signals-of-the-first-and-second-integrator-stages" id="toc-output-signals-of-the-first-and-second-integrator-stages" class="nav-link" data-scroll-target="#output-signals-of-the-first-and-second-integrator-stages"><span class="header-section-number">6.2</span> Output Signals of the First and Second Integrator Stages</a>
+  <ul>
+  <li><a href="#integrator-1-output---vvx1" id="toc-integrator-1-output---vvx1" class="nav-link" data-scroll-target="#integrator-1-output---vvx1"><span class="header-section-number">6.2.1</span> Integrator 1 Output - V(vx1)</a></li>
+  <li><a href="#integrator-2-output---vvx2" id="toc-integrator-2-output---vvx2" class="nav-link" data-scroll-target="#integrator-2-output---vvx2"><span class="header-section-number">6.2.2</span> Integrator 2 Output - V(vx2)</a></li>
+  <li><a href="#output-waveforms-visualization" id="toc-output-waveforms-visualization" class="nav-link" data-scroll-target="#output-waveforms-visualization"><span class="header-section-number">6.2.3</span> Output Waveforms Visualization</a></li>
+  <li><a href="#interpretation-of-results" id="toc-interpretation-of-results" class="nav-link" data-scroll-target="#interpretation-of-results"><span class="header-section-number">6.2.4</span> Interpretation of Results</a></li>
   </ul></li>
-  <li><a href="#area-efficiency-and-frequency-control-in-switched-capacitor-circuits" id="toc-area-efficiency-and-frequency-control-in-switched-capacitor-circuits" class="nav-link" data-scroll-target="#area-efficiency-and-frequency-control-in-switched-capacitor-circuits"><span class="header-section-number">5.6</span> Area Efficiency and Frequency Control in Switched Capacitor Circuits</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -876,16 +876,31 @@ I_{avg} = \frac{Q}{T} = C \cdot V \cdot f
 <p>Such designs form the foundation of analog filters, integrators, and ADC building blocks, especially in Sigma-Delta modulation schemes. Understanding these fundamentals allows for the design and implementation of low-power, high-precision, and scalable analog signal processing systems.</p>
 </section>
 </section>
-<section id="ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator"><span class="header-section-number">5.4</span> LTSpice Simulation of an Idealized Second-Order Sigma-Delta Modulator</h2>
+<section id="area-efficiency-and-frequency-control-in-switched-capacitor-circuits" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="area-efficiency-and-frequency-control-in-switched-capacitor-circuits"><span class="header-section-number">5.4</span> Area Efficiency and Frequency Control in Switched Capacitor Circuits</h2>
+<p>One of the main challenges is implementing large and accurate resistances without consuming excessive silicon area. Unlike continuous-time RC filters, which require physically large resistors to achieve low-frequency operation, switched capacitor circuits can emulate resistances through controlled charge transfer, depending only on the clock frequency and the capacitor value. This technique allows designers to achieve high accuracy and area efficiency.</p>
+<p>The schematic shown in <strong>Figure X</strong> illustrates a basic switched capacitor structure controlled by non-overlapping clock phases Φ₁ and Φ₂. During Φ₁, the capacitor is connected to the input, allowing it to charge. During Φ₂, the charge is transferred to the output. This operation is equivalent to moving discrete packets of charge, simulating the current that would flow through a resistor.</p>
+<p><img src="figures/sc_switches.drawio.png" class="img-fluid" alt="Switched Capacitor"><br>
+<em>Figure X: Conceptual diagram of a switched capacitor.</em></p>
+<p>One of the most valuable properties of switched capacitor circuits is that their equivalent resistance is defined by:</p>
+<p><span class="math display">\[
+R_{eq} = \frac{1}{C \cdot f}
+\]</span></p>
+<p>Where <strong>C</strong> is the capacitance and <strong>f</strong> is the switching frequency. This makes the resistance predictable and easily tunable by simply adjusting the clock frequency, without relying on process-sensitive resistor fabrication.</p>
+<p>The area savings come from the fact that capacitors generally occupy less silicon area than high-value resistors. Additionally, the matching between capacitors is typically better than the matching between resistors, resulting in more stable and accurate circuit behavior. These advantages make switched capacitor circuits ideal for applications such as integrators in Sigma-Delta ADCs, switched capacitor filters, and precision analog signal processing.</p>
+<p>Finally, because the resistance value depends entirely on the switching frequency and capacitance, designers can dynamically modify a filter’s frequency response by changing the clock rate, providing additional flexibility in system design.</p>
+</section>
+</section>
+<section id="ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> LTSpice Simulation of an Idealized Second-Order Sigma-Delta Modulator</h1>
 <p>In this section, the behavior of an idealized second-order Sigma-Delta (ΔΣ) modulator is demonstrated using an LTSpice simulation. The purpose of this simulation is to validate the fundamental operation of the switched capacitor stages and integrator loops prior to implementing a more realistic circuit.</p>
 <p>The model consists of two cascaded switched capacitor integrator stages, followed by a comparator and a digital feedback path. The switched capacitor stages are configured to emulate integrators, where the charge transfer mechanism accurately models the behavior of continuous-time integrators in a discrete-time domain.</p>
 <p>The schematic shown in <strong>Figure X</strong> represents the complete simulation setup implemented in LTSpice. The primary blocks in this design are: - <strong>Switched Capacitor Integrators</strong>: Each integrator is implemented using an ideal operational amplifier model and switched capacitors that mimic charge transfer. The capacitors <strong>Cs1/Ci1</strong> and <strong>Cs2/Ci2</strong> define the integrator characteristics and influence the loop filter coefficients. - <strong>Clock Phases (Φ₁ and Φ₂)</strong>: Two non-overlapping clock signals control the timing of the switches. These clock signals are generated by voltage sources modeled as <strong>pulse generators</strong> in LTSpice, ensuring the correct timing and preventing overlap, which is critical to avoid signal corruption. - <strong>Comparator</strong>: An ideal comparator converts the analog output of the second integrator stage into a digital logic level. - <strong>Feedback Path</strong>: The output of the comparator is fed back into the modulator, closing the loop. The feedback ensures stability and noise shaping, both characteristic behaviors of ΣΔ modulators. - <strong>D Flip-Flop</strong>: The comparator output passes through a D Flip-Flop to synchronize the output with the system clock, ensuring stable digital outputs.</p>
 <p><img src="figures/dsm_l2.png" class="img-fluid" alt="LTSpice Simulation of Second-Order Sigma-Delta Modulator"><br>
 <em>Figure X: LTSpice simulation schematic of an idealized second-order Sigma-Delta modulator.</em></p>
 <hr>
-<section id="key-components-and-operation" class="level3" data-number="5.4.1">
-<h3 data-number="5.4.1" class="anchored" data-anchor-id="key-components-and-operation"><span class="header-section-number">5.4.1</span> Key Components and Operation</h3>
+<section id="key-components-and-operation" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="key-components-and-operation"><span class="header-section-number">6.1</span> Key Components and Operation</h2>
 <p><strong>Clock Phase Control:</strong> The simulation uses <strong>ideal switches</strong> controlled by two non-overlapping clock phases <strong>Φ₁</strong> and <strong>Φ₂</strong> at a frequency of 220 kHz. These clocks are modeled with pulse generators and are configured to ensure there is no overlap. This guarantees that charge transfer occurs without any unintended charge sharing or signal corruption.</p>
 <p><strong>Switched Capacitor Stages:</strong> Each switched capacitor stage consists of: - Sampling capacitors <strong>Cs1</strong> and <strong>Cs2</strong>. - Integration capacitors <strong>Ci1</strong> and <strong>Ci2</strong>. - A set of four switches per stage that perform the sampling and integration steps.</p>
 <p>The switched capacitor integrators convert the input voltage signal into a charge packet transferred at each clock cycle. This process allows the integrator stages to perform accurate discrete-time integration, critical for the loop filter performance in a ΣΔ modulator.</p>
@@ -897,51 +912,36 @@ I_{avg} = \frac{Q}{T} = C \cdot V \cdot f
 <p>This LTSpice simulation demonstrates the core functionality of an idealized second-order Sigma-Delta modulator, including: - Precise clock phase control to prevent signal corruption. - Switched capacitor integrator stages emulating discrete-time integration. - Quantization feedback ensuring noise shaping and high-resolution analog-to-digital conversion.</p>
 <p>This model serves as a foundation for developing more realistic circuits, where non-idealities such as switch resistance, parasitic capacitance, and finite OTA gain are considered.</p>
 </section>
-</section>
-<section id="output-signals-of-the-first-and-second-integrator-stages" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="output-signals-of-the-first-and-second-integrator-stages"><span class="header-section-number">5.5</span> Output Signals of the First and Second Integrator Stages</h2>
+<section id="output-signals-of-the-first-and-second-integrator-stages" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="output-signals-of-the-first-and-second-integrator-stages"><span class="header-section-number">6.2</span> Output Signals of the First and Second Integrator Stages</h2>
 <p>Following the LTSpice simulation of the idealized second-order Sigma-Delta modulator, the voltage outputs of the first and second integrator stages were analyzed. These signals provide crucial insight into the operation and dynamic behavior of the modulator’s loop filter.</p>
 <p>The voltage waveform <strong>V(vx1)</strong> represents the output of the first integrator, while <strong>V(vx2)</strong> corresponds to the output of the second integrator. Both signals are critical in understanding the internal signal processing and how the modulator shapes the quantization noise.</p>
-<section id="integrator-1-output---vvx1" class="level3" data-number="5.5.1">
-<h3 data-number="5.5.1" class="anchored" data-anchor-id="integrator-1-output---vvx1"><span class="header-section-number">5.5.1</span> Integrator 1 Output - V(vx1)</h3>
+<section id="integrator-1-output---vvx1" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="integrator-1-output---vvx1"><span class="header-section-number">6.2.1</span> Integrator 1 Output - V(vx1)</h3>
 <p>The output of the first integrator, <strong>V(vx1)</strong>, shows the integration of the input signal combined with the feedback from the quantizer. The integrator accumulates charge, resulting in a signal that closely follows the low-frequency components of the input while reacting to the feedback signal to suppress quantization noise within the signal band.</p>
 <p>The waveform of <strong>V(vx1)</strong> demonstrates: - A smoother signal profile compared to the input, due to its integration function. - Oscillations introduced by the feedback loop as the system attempts to keep the quantization error shaped and controlled.</p>
 </section>
-<section id="integrator-2-output---vvx2" class="level3" data-number="5.5.2">
-<h3 data-number="5.5.2" class="anchored" data-anchor-id="integrator-2-output---vvx2"><span class="header-section-number">5.5.2</span> Integrator 2 Output - V(vx2)</h3>
+<section id="integrator-2-output---vvx2" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="integrator-2-output---vvx2"><span class="header-section-number">6.2.2</span> Integrator 2 Output - V(vx2)</h3>
 <p>The output of the second integrator, <strong>V(vx2)</strong>, exhibits an even higher degree of integration. It represents the second accumulation in the cascade, further enhancing the low-pass filtering effect of the loop filter. This output typically shows: - A stronger suppression of high-frequency components. - More pronounced signal swings, as the second integrator amplifies the difference between the first integrator’s output and the feedback signal from the comparator.</p>
 <p>The dynamic range of <strong>V(vx2)</strong> is larger than that of <strong>V(vx1)</strong>, illustrating the additional integration stage’s impact. The output of the second integrator directly feeds into the quantizer (comparator), making its behavior essential to achieving the desired noise shaping properties.</p>
 </section>
-<section id="output-waveforms-visualization" class="level3" data-number="5.5.3">
-<h3 data-number="5.5.3" class="anchored" data-anchor-id="output-waveforms-visualization"><span class="header-section-number">5.5.3</span> Output Waveforms Visualization</h3>
+<section id="output-waveforms-visualization" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="output-waveforms-visualization"><span class="header-section-number">6.2.3</span> Output Waveforms Visualization</h3>
 <p>The time-domain waveforms for both integrator outputs are shown in <strong>Figure X</strong> below. The x-axis represents the simulation time (0 ms to 30 ms), while the y-axis represents the output voltages of the two integrators. The distinct differences in the signal shapes illustrate the successive integration performed by each stage.</p>
 <p><img src="figures/Output1_2.png" class="img-fluid" alt="Integrator Outputs of the Sigma-Delta Modulator"><br>
 <em>Figure X: LTSpice simulation results showing the outputs of the first integrator V(vx1) and second integrator V(vx2).</em></p>
 </section>
-<section id="interpretation-of-results" class="level3" data-number="5.5.4">
-<h3 data-number="5.5.4" class="anchored" data-anchor-id="interpretation-of-results"><span class="header-section-number">5.5.4</span> Interpretation of Results</h3>
+<section id="interpretation-of-results" class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="interpretation-of-results"><span class="header-section-number">6.2.4</span> Interpretation of Results</h3>
 <p>The key observations from these output signals are: - The first integrator output <strong>V(vx1)</strong> follows the integrated input and feedback signals, acting as the first stage of the loop filter.</p>
 <ul>
 <li><p>The second integrator output <strong>V(vx2)</strong> provides a deeper integration, smoothing out the signal further and preparing it for quantization.</p></li>
 <li><p>Both outputs confirm the correct operation of the switched capacitor integrator stages and validate the simulation model.</p></li>
 </ul>
 <p>The correct functioning of these integrators is fundamental to ensuring the modulator shapes quantization noise effectively. In a practical implementation, the design of these integrators would have to consider non-idealities such as finite OTA gain, thermal noise, and parasitic capacitances. However, for this idealized simulation, the results closely match the expected theoretical behavior.</p>
-</section>
-</section>
-<section id="area-efficiency-and-frequency-control-in-switched-capacitor-circuits" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="area-efficiency-and-frequency-control-in-switched-capacitor-circuits"><span class="header-section-number">5.6</span> Area Efficiency and Frequency Control in Switched Capacitor Circuits</h2>
-<p>Switched capacitor circuits offer a significant advantage when it comes to realizing large and precise resistances on-chip. Unlike continuous-time RC filters, which require physically large resistors to achieve low-frequency operation, switched capacitor circuits can emulate resistances through controlled charge transfer, depending only on the clock frequency and the capacitor value. This technique allows designers to achieve high accuracy and area efficiency.</p>
-<p>The schematic shown in <strong>Figure X</strong> illustrates a basic switched capacitor structure controlled by non-overlapping clock phases Φ₁ and Φ₂. During Φ₁, the capacitor is connected to the input, allowing it to charge. During Φ₂, the charge is transferred to the output. This operation is equivalent to moving discrete packets of charge, simulating the current that would flow through a resistor.</p>
-<p><img src="figures/sc_switches.drawio.png" class="img-fluid" alt="Switched Capacitor"><br>
-<em>Figure X: Conceptual diagram of a switched capacitor.</em></p>
-<p>One of the most valuable properties of switched capacitor circuits is that their equivalent resistance is defined by:</p>
-<p><span class="math display">\[
-R_{eq} = \frac{1}{C \cdot f}
-\]</span></p>
-<p>Where <strong>C</strong> is the capacitance and <strong>f</strong> is the switching frequency. This makes the resistance predictable and easily tunable by simply adjusting the clock frequency, without relying on process-sensitive resistor fabrication.</p>
-<p>The area savings come from the fact that capacitors generally occupy less silicon area than high-value resistors. Additionally, the matching between capacitors is typically better than the matching between resistors, resulting in more stable and accurate circuit behavior. These advantages make switched capacitor circuits ideal for applications such as integrators in Sigma-Delta ADCs, switched capacitor filters, and precision analog signal processing.</p>
-<p>Finally, because the resistance value depends entirely on the switching frequency and capacitance, designers can dynamically modify a filter’s frequency response by changing the clock rate, providing additional flexibility in system design.</p>
 
+</section>
 </section>
 </section>
 

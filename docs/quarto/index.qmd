@@ -3,3 +3,4 @@
 {{< include content/_delta_siga_adc.qmd >}}
 {{< include content/_MATLAB.qmd >}}
 {{< include content/_CircuitLevelBehaviour.qmd >}}
+{{< include content/_LTspice.qmd >}}
