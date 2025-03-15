@@ -186,6 +186,7 @@ window.Quarto = {
   <li><a href="#output-waveforms-visualization" id="toc-output-waveforms-visualization" class="nav-link" data-scroll-target="#output-waveforms-visualization"><span class="header-section-number">5.5.3</span> Output Waveforms Visualization</a></li>
   <li><a href="#interpretation-of-results" id="toc-interpretation-of-results" class="nav-link" data-scroll-target="#interpretation-of-results"><span class="header-section-number">5.5.4</span> Interpretation of Results</a></li>
   </ul></li>
+  <li><a href="#area-efficiency-and-frequency-control-in-switched-capacitor-circuits" id="toc-area-efficiency-and-frequency-control-in-switched-capacitor-circuits" class="nav-link" data-scroll-target="#area-efficiency-and-frequency-control-in-switched-capacitor-circuits"><span class="header-section-number">5.6</span> Area Efficiency and Frequency Control in Switched Capacitor Circuits</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -925,8 +926,22 @@ I_{avg} = \frac{Q}{T} = C \cdot V \cdot f
 <li><p>Both outputs confirm the correct operation of the switched capacitor integrator stages and validate the simulation model.</p></li>
 </ul>
 <p>The correct functioning of these integrators is fundamental to ensuring the modulator shapes quantization noise effectively. In a practical implementation, the design of these integrators would have to consider non-idealities such as finite OTA gain, thermal noise, and parasitic capacitances. However, for this idealized simulation, the results closely match the expected theoretical behavior.</p>
-
 </section>
+</section>
+<section id="area-efficiency-and-frequency-control-in-switched-capacitor-circuits" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="area-efficiency-and-frequency-control-in-switched-capacitor-circuits"><span class="header-section-number">5.6</span> Area Efficiency and Frequency Control in Switched Capacitor Circuits</h2>
+<p>Switched capacitor circuits offer a significant advantage when it comes to realizing large and precise resistances on-chip. Unlike continuous-time RC filters, which require physically large resistors to achieve low-frequency operation, switched capacitor circuits can emulate resistances through controlled charge transfer, depending only on the clock frequency and the capacitor value. This technique allows designers to achieve high accuracy and area efficiency.</p>
+<p>The schematic shown in <strong>Figure X</strong> illustrates a basic switched capacitor structure controlled by non-overlapping clock phases Φ₁ and Φ₂. During Φ₁, the capacitor is connected to the input, allowing it to charge. During Φ₂, the charge is transferred to the output. This operation is equivalent to moving discrete packets of charge, simulating the current that would flow through a resistor.</p>
+<p><img src="figures/sc_switches.drawio.png" class="img-fluid" alt="Switched Capacitor"><br>
+<em>Figure X: Conceptual diagram of a switched capacitor.</em></p>
+<p>One of the most valuable properties of switched capacitor circuits is that their equivalent resistance is defined by:</p>
+<p><span class="math display">\[
+R_{eq} = \frac{1}{C \cdot f}
+\]</span></p>
+<p>Where <strong>C</strong> is the capacitance and <strong>f</strong> is the switching frequency. This makes the resistance predictable and easily tunable by simply adjusting the clock frequency, without relying on process-sensitive resistor fabrication.</p>
+<p>The area savings come from the fact that capacitors generally occupy less silicon area than high-value resistors. Additionally, the matching between capacitors is typically better than the matching between resistors, resulting in more stable and accurate circuit behavior. These advantages make switched capacitor circuits ideal for applications such as integrators in Sigma-Delta ADCs, switched capacitor filters, and precision analog signal processing.</p>
+<p>Finally, because the resistance value depends entirely on the switching frequency and capacitance, designers can dynamically modify a filter’s frequency response by changing the clock rate, providing additional flexibility in system design.</p>
+
 </section>
 </section>
 

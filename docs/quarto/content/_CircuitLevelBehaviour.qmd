@@ -169,3 +169,27 @@ The key observations from these output signals are:
 - Both outputs confirm the correct operation of the switched capacitor integrator stages and validate the simulation model.
 
 The correct functioning of these integrators is fundamental to ensuring the modulator shapes quantization noise effectively. In a practical implementation, the design of these integrators would have to consider non-idealities such as finite OTA gain, thermal noise, and parasitic capacitances. However, for this idealized simulation, the results closely match the expected theoretical behavior.
+
+
+
+
+## Area Efficiency and Frequency Control in Switched Capacitor Circuits
+
+Switched capacitor circuits offer a significant advantage when it comes to realizing large and precise resistances on-chip. Unlike continuous-time RC filters, which require physically large resistors to achieve low-frequency operation, switched capacitor circuits can emulate resistances through controlled charge transfer, depending only on the clock frequency and the capacitor value. This technique allows designers to achieve high accuracy and area efficiency.
+
+The schematic shown in **Figure X** illustrates a basic switched capacitor structure controlled by non-overlapping clock phases Φ₁ and Φ₂. During Φ₁, the capacitor is connected to the input, allowing it to charge. During Φ₂, the charge is transferred to the output. This operation is equivalent to moving discrete packets of charge, simulating the current that would flow through a resistor.
+
+![Switched Capacitor](figures/sc_switches.drawio.png)  
+*Figure X: Conceptual diagram of a switched capacitor.*
+
+One of the most valuable properties of switched capacitor circuits is that their equivalent resistance is defined by:
+
+$$
+R_{eq} = \frac{1}{C \cdot f}
+$$
+
+Where **C** is the capacitance and **f** is the switching frequency. This makes the resistance predictable and easily tunable by simply adjusting the clock frequency, without relying on process-sensitive resistor fabrication.
+
+The area savings come from the fact that capacitors generally occupy less silicon area than high-value resistors. Additionally, the matching between capacitors is typically better than the matching between resistors, resulting in more stable and accurate circuit behavior. These advantages make switched capacitor circuits ideal for applications such as integrators in Sigma-Delta ADCs, switched capacitor filters, and precision analog signal processing.
+
+Finally, because the resistance value depends entirely on the switching frequency and capacitance, designers can dynamically modify a filter's frequency response by changing the clock rate, providing additional flexibility in system design.
