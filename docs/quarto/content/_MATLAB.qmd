@@ -1,0 +1,71 @@
+# Implementation and Analysis of Behavior with MATLAB and Simulink
+
+## System Design
+
+To start with the system design and the analyze of the behaviour the following block diagram in @fig-Block-diagram-of-the-2nd-order-modulator-in-Simulink is shown. The modulator topology is a standard CIFB (cascade of integrators, feedback) structure [@schreier2005understanding]. 
+
+![Block diagram of the 2nd-order modulator in Simulink](figures/mod2_matlab.png){#fig-Block-diagram-of-the-2nd-order-modulator-in-Simulink width=75%}
+
+In this model, the parameters are defined as follows:
+
+| Specification                    | Value                                  |
+|-----------------------------|----------------------------------------|
+| System Order (L)            | 2                                      |
+| Modulator Topology (form)   | CIFB                                   |
+| Optimization (opt)          | 0                                      |
+| Quantizer Levels (nLev)     | 2 (1‑Bit)                              |
+| Sampling Frequency (f_s)    | 220 kHz                                |
+| Sampling Time (T_s)         | 1 / f_s                                |
+| Oversampling Ratio (OSR, M) | 512                                    |
+| Simulation Length (N)       | 16 × M = 8192                          |
+| Bandwidth (f_B)             | f_s / (2 × M) ≈ 215 Hz                 |
+| Sinus Test Cycles           | 9                                      |
+| Sinus Frequency (f_x)       | cycles × f_s / N                       |
+| Test Signal Amplitude (A)   | 0.8                                    |
+| Time Vector (t)             | T_s × [0 … N–1]                        |
+| Input Signal (u)            | A · sin(2π · f_x/f_s · [0 … N–1])       |
+
+In this model, the parameter **L** is set to 2, indicating that the DSM is of second order. The topology is defined by **form = 'CIFB'**, which specifies the Cascade of Integrator Feedback configuration — a standard structure for delta-sigma designs. The parameters **fs** and **Ts** denote the sampling frequency and sampling period, respectively. The oversampling ratio is determined by **M = 512**, while the simulation length—and consequently the number of FFT points—is set by **N = 16 × M**. Finally, **u** represents the sinusoidal input signal for the modulator.
+
+```matlab
+%% Design NTF
+H = synthesizeNTF(L, M, opt, 2);
+[a, g, b, c] = realizeNTF(H, form);
+b(2:end) = 0;
+ABCD = stuffABCD(a, g, b, c, form);
+[ABCDs, umax] = scaleABCD(ABCD);
+[a, g, b, c] = mapABCD(ABCDs, form);
+```
+
+SynthesizeNTF(L, M, opt, 2) designs the noise-transfer function polynomial (NTF) based on the modulator order **L**, the oversampling ratio **M**, and additional parameters. The function realizeNTF(H, form) generates specific coefficients (**a**, **g**, **b**, **c**) for the chosen topology (CIFB). The operation `b(2:end) = 0` sets certain feedback paths to zero, often for simplification or demonstration purposes. Subsequently, the functions stuffABCD(...), scaleABCD(...), and mapABCD(...) transform and scale the state-space representation of the modulator (the ABCD matrix) to achieve a more favorable implementation, such as reducing the signal levels in the integrators. The result is a complete modulator design that can be used in Simulink or a discrete model.
+
+The simulation produces time-domain data corresponding to the integrator outputs and the quantized (PWM) output of the modulator. In the time-domain analysis, the input sinusoidal signal u is compared with the modulated output v. By plotting these signals together, as shown in, one can observe the modulation behavior and how well the input signal is tracked despite the quantization process.
+
+
+To assess the noise shaping characteristics of the DSM, the Fast Fourier Transform (FFT) of the quantized output v is computed. The magnitude spectrum is normalized and converted to decibels relative to full-scale (dBFS). This frequency-domain analysis highlights the spectral distribution of quantization noise, which is predominantly pushed out of the signal band:
+
+```matlab
+%% Frequency-Domain Analysis
+sq = abs(fft(v));
+f = [0:N/2-1] / N;       % Frequency vector (normalized to fs)
+sq_hlf = sq(1:end/2) / (N/2);
+sqdBFS = 20 * log10(sq_hlf);
+
+% Correction for log10(0)
+sqdBFS(isinf(sqdBFS)) = -150;
+
+figure;
+plot(f, sqdBFS, 'linewidth', 2);
+xlabel('Frequency f/fs');
+ylabel('Magnitude (dBFS)');
+title('Spectral Analysis of the DSM Output');
+grid on;
+```
+
+The result of the modulator can be seen in @fig-PWM_Output above. The modulator converts the analog input signal into a high-speed, single-bit, pulse-width modulated waveform. However, the modulator output has certain drawbacks, including high-frequency noise and a fast 1-bit output rate. Once the signal is in the digital domain, a low-pass digital filter can be applied to reduce high-frequency noise, while a decimator filter can be used to decrease the output data rate.
+
+![2nd Order Sigma-Delta Modulator Output](figures/PWM_Output.svg){#fig-PWM_Output width=75%}
+
+::: {.callout-note title="Applications of PWM Signals"}
+PWM is widely used in various applications due to its efficiency in controlling power and signal transmission. In audio applications, PWM is employed in Class-D amplifiers, where the modulated signal directly drives the speaker. It is also utilized in digital-to-analog conversion (DAC), particularly in pulse-density modulation (PDM)-based systems like DSD (Direct Stream Digital) audio. Furthermore, PWM plays a crucial role in motor control and power regulation, enabling precise adjustments in speed and energy efficiency.
+:::

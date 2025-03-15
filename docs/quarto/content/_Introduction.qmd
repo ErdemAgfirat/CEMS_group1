@@ -1,0 +1,65 @@
+# Introduction
+
+As the availability of standardized integrated circuit solutions decreases, the demand for tailored, application-specific designs is on the rise @Dobkin2011. In response to this trend, students participating in the "Concept Engineering Mixed-Technology Systems" course, led by Professor Meiners at The City University of Applied Sciences, have been given the task of designing an Analog-to-Digital Converter (ADC). The aim is to develop a suitable replacement for the Texas Instruments ADS1115, tailored to meet the requirements of a specified measurement system.
+
+The role of data conversion is fundamental in modern electronics. As digital processing technology continues to advance, speeds have reached unprecedented levels, and semiconductor components are now manufactured with nanometer precision, enabling Gigahertz-level data rates as a standard. Despite these technological strides, the physical world remains inherently analog, creating a necessity for reliable conversion techniques to interface analog signals with high-performance digital systems @kester2005data.
+
+In modern mixed-signal circuits, analog signal processing is increasingly complemented by digital signal processing. This shift allows for the use of lower-quality analog components, offset by the complexity and efficiency of digital systems @Baker2008. From an engineering perspective, this trade-off plays a crucial role in designing high-performance ADCs, where digital compensation techniques can improve accuracy while reducing reliance on precise analog circuitry. As a result, contemporary ADC architectures integrate sophisticated digital algorithms to enhance resolution and dynamic range while minimizing the impact of analog imperfections.
+
+This necessity spans multiple fields, including acoustics, optics, and mechanical sensing. To ensure accurate digital representation of analog data, ADCs must operate with high speed, precision, and reliability, making them critical components in modern electronic applications.
+
+The fundamental concept of interfacing the analog and digital domains is illustrated in **Figure 1**. The diagram shows the sequential flow from analog input signals, through analog-to-digital conversion, followed by digital data processing, and finally through digital-to-analog conversion to produce an analog output. This process highlights the critical role of reliable data conversion techniques in modern mixed-signal systems.
+
+![Analog and Digital Domains](figures/Domains.png)
+
+*Figure 1: Interfacing Between Analog and Digital Domains.*
+
+This report explores one of the most effective ADC architectures: the Sigma-Delta converter. The following sections provide a theoretical overview of ADC operation, analyze key performance characteristics at the system level, and develop foundational circuit models that replicate the desired conversion behavior. Lastly, a detailed circuit design will be presented, verified through SPICE simulations in the xschem design environment, outlining practical implementation strategies for integrated circuit fabrication.
+
+## System Overview
+
+The measurement system under consideration for this semester's project is a classical mixed-signal architecture designed for precise data acquisition and processing. At its core, the system utilizes an **accelerometer** as the primary analog sensor, responsible for capturing physical acceleration data from the environment. This analog signal is inherently continuous and requires conversion into the digital domain to enable efficient processing, analysis, and communication.
+
+To achieve this, the analog output from the accelerometer is fed into an **ADC**. The ADC performs the crucial task of sampling the continuous analog signal and quantizing it into discrete digital values. These digital signals can then be processed by a **microontroller**, which serves as the central processing unit for the system. Within the microcontroller, further operations such as filtering, data interpretation, and wireless communication can be performed, depending on the application requirements.
+
+For the hardware implementation of this signal chain, the following components have been selected:
+
+- **ADXL335 Accelerometer**  
+  A low-power, three-axis analog output accelerometer capable of measuring acceleration with a full-scale range of ±3 g. It provides a simple and reliable analog voltage output proportional to acceleration, making it ideal for integration into the system.
+
+- **ADS1115 ADC**  
+  A high-precision, 16-bit analog-to-digital converter from Texas Instruments. It features a programmable gain amplifier (PGA) and an I²C-compatible interface, offering excellent resolution and flexibility for capturing low-level analog signals from the accelerometer.
+
+- **ESP8266 Microcontroller**  
+  A highly integrated microcontroller with built-in Wi-Fi capability. It not only handles the digital data processing but also enables wireless communication, making it suitable for IoT-based measurement applications.
+
+This system architecture ensures a robust interface between the analog sensing domain and the digital processing domain, highlighting the importance of accurate data conversion and efficient signal processing in modern measurement systems.
+
+The high-level architecture of the described measurement system is illustrated in **Figure 2** below. It shows the data flow from the analog accelerometer (ADXL335), through the analog-to-digital converter (ADS1115), and finally to the digital microcontroller (ESP8266) for further processing and communication.
+
+![Top-Level Measurement System](figures/Measurement_System.png)
+
+*Figure 2: Top-Level Block Diagram of the Measurement System.*
+
+In addition to the top-level architecture, the internal structure and functionality of the individual components are shown in the following figures. These diagrams provide insight into the signal flow and the key subsystems involved in the measurement system.
+
+### ADXL335 Block Diagram
+
+**Figure 3** presents the internal block diagram of the **ADXL335 accelerometer**. It consists of a three-axis MEMS sensor, followed by an AC amplifier and demodulator stage. Each axis output is then buffered through separate output amplifiers, providing analog voltage signals corresponding to acceleration along the X, Y, and Z axes. These outputs are routed to external filtering components to stabilize the signal.
+
+![ADXL335 Block Diagram](figures/ADXL335.png)  
+*Figure 3: Functional Block Diagram of the ADXL335 Accelerometer* @Analog_ADXL335
+
+### ADS1115 Block Diagram
+
+**Figure 4** illustrates the functional block diagram of the **ADS1115 Analog-to-Digital Converter**. The ADC features a multiplexer (MUX) that allows for the selection between multiple input channels, followed by a programmable gain amplifier (PGA). The 16-bit delta-sigma ADC performs high-resolution conversion of the input signal. An internal voltage reference, oscillator, and I²C interface facilitate accurate conversion and communication with external devices. The comparator and ALERT/RDY functionality provide additional flexibility for system integration.
+
+![ADS1115 Block Diagram](figures/ADS1115.png)  
+*Figure 4: Functional Block Diagram of the ADS1115 ADC.* @TI_ADS1115
+
+### ESP8266 Pinout Diagram
+
+Finally, **Figure 5** displays the **ESP8266 microcontroller module pinout**. This microcontroller includes GPIO pins, I²C and SPI communication interfaces, and a built-in Wi-Fi module. The diagram highlights the various available digital interfaces for connecting to peripheral devices, as well as power and ground connections necessary for integration into the system. The ESP8266 is responsible for receiving the digital data from the ADS1115 and handling subsequent processing and wireless communication.
+
+![ESP8266 Pinout Diagram](figures/ESP8266.png)  
+*Figure 5: Pinout Diagram of the ESP8266 Microcontroller.* @Techrm_ESP8266

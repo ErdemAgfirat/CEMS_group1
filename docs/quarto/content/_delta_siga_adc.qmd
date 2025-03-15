@@ -1,4 +1,42 @@
-# Delta-Sigma ADCs 
+# Delta-Sigma ADCs
+
+The general block diagram of a Delta-Sigma ADC is as follows:
+
+![General block diagram of a Delta-sigma ADC](figures/General_block_diagram.drawio.svg){#fig-General-block-diagram-of-a-Delta-sigma-ADC width=105%}
+
+The topology includes an antialiasing filter, which band-limits the analog input signal to prevent aliasing during subsequent sampling. Oversampling significantly reduces the attenuation requirements of the AAF, allowing for smoother transition bands compared to Nyquist-rate ADCs. The central block, the Delta-Sigma modulator, performs oversampling and quantization of the band-limited analog signal. The quantization noise of the embedded quantizer is shaped in the frequency domain by introducing an appropriate loop filter $H(z)$ before it and enclosing them within a negative feedback loop. The decimation filter applies a highly selective digital filter to sharply remove out-of-band spectral components from the Sigma-Delta output, effectively eliminating most of the shaped quantization noise. Additionally, the decimator reduces the data rate from $f_s$ down to the Nyquist frequency while increasing the word length [@delarosa2013].
+
+## System Overview
+
+<!-- ![System overview](figures/System_overview.drawio.svg){#fig-Sysem-overview width=85%} -->
+
+A Delta-Sigma converter operates as a 1-bit sampling system, where an analog input signal is sampled multiple times through oversampling. At its core, the Delta-Sigma modulator converts the analog signal into a high-speed, single-bit pulse stream while shaping the quantization noise. The modulator can be analyzed in both the time domain and frequency domain.
+
+![First-order delta-sigma modulator in the time domain [@baker2011deltasigma]](figures/first_order_time_domain.drawio.svg){#fig-first_order_delta_sigma_modulator_time_domain width=85%}
+
+@fig-first_order_delta_sigma_modulator_time_domain depicts the time-domain representation of the modulator. It consists of a difference amplifier, an integrator, and a comparator, with a feedback loop incorporating a 1-bit DAC.
+
+The system continuously calculates the difference between the input signal and a feedback signal, emphasizing changes rather than absolute values. This difference signal is then integrated, influencing the output direction. When the integrator output reaches the comparator threshold, the 1-bit ADC quantizes it into a binary value. The output is fed back through a 1-bit DAC, creating a closed-loop system that shapes the noise and stabilizes the signal. The resulting pulse waveform represents the input signal, and when averaged over time, it approximates the original analog input [@baker2011deltasigma]. The DAC functions as a simple switch that connects the negative input of the difference amplifier to either a positive or negative reference voltage. Its primary role is to keep the integrator's average output near the comparator's reference level [@integrated2003demystifying].
+
+
+![First-order delta-sigma modulator in the frequency domain](figures/first_order_freq_domain1.drawio.svg){#fig-first_order_delta_sigma_modulator_frequency_domain width=85%}
+
+In the frequency domain, the combiFnation of integration and oversampling functions as a noise-shaping filter, enabling high-resolution conversion by pushing noise outside the signal band.
+
+Thanks to these characteristics, Delta-Sigma ADCs are widely used in applications requiring high accuracy, such as audio processing, sensor technology, and precision measurements .
+
+::: {.callout-note title="Why is it called Delta-Sigma?"}
+
+The name **Delta-Sigma** originates from the key mathematical operations performed in the modulator.  
+
+- **Delta (Δ)** represents the difference operation. The system continuously calculates the difference between the input signal and the feedback signal, ensuring that it tracks changes rather than absolute values. This differentiation process helps in shaping the quantization noise.  
+- **Sigma (Σ)** refers to accumulation (or integration). After computing the difference, the error signal is integrated over time, effectively summing past values. This process shapes the noise spectrum, reducing in-band noise while pushing most of it to higher frequencies.  
+
+Some sources use the term **Sigma-Delta** instead of **Delta-Sigma**, emphasizing the integration first. However, both terms describe the same modulation technique.
+
+:::
+
+## Fundamental Concepts
 
 ![Fundamental concepts of the Delta-Sigma ADC](figures/concepts_delta_sigma_adc.drawio.svg){#fig-Fundamental-concepts-of-the-Delta-Sigma-ADC}
 
@@ -12,18 +50,188 @@ $$
 OSR = \frac{f_s}{2 f_{\text{max}}}, \tag{2}
 $$
 
-where $f_{\text{max}}$ is the maximum signal frequency, which is the signal bandwidth [4]. 
+where $f_{\text{max}}$ is the maximum signal frequency, which is the signal bandwidth [@pavan2017understanding]. 
 
 Oversampled A/D converters impose significantly less stringent requirements on the filter compared to Nyquist rate converters, as the signal is sampled at a frequency that far exceeds its bandwidth [@Boser1988]. One advantage of oversampling ADCs is that they simplify the requirements for the AAF. It is important to note that the AAF for a Nyquist converter must have a sharp transition band, which often results in phase distortion for signal components near the cut-off frequency [@delarosa2011sigmadelta].
 
-![Antialiasing filter for oversampling ADCs](figures/oversampling.svg){#fig-Antialiasing-filter-for-oversampling-ADCs}
+![Antialiasing filter for oversampling ADCs](figures/oversampled_spectrum.drawio.svg){#fig-Antialiasing-filter-for-oversampling-ADCs width=100%}
 
 However, oversampling has another effect that must be considered: noise. This phenomenon, known as quantization noise, arises for the following reason: while the ADC input is a continuous signal with an infinite range of possible values, the digital output is discrete, with the number of distinct states determined by the converter’s resolution. As a result, the analog-to-digital conversion process inevitably discards some information, introducing a certain degree of distortion into the signal. The associated error varies randomly, with a magnitude of up to ±1 LSB [@Clifford2016]. The following Figure shows the signal with a quantization noise:
 
-![Quantization noise in Nyquist-rate ADCs](figures/quantization_noise.svg){#fig-Quantization-noise-in-Nyquist-rate-ADCs}
+![Quantization noise in Nyquist-rate ADCs](figures/spectrum_repetition.drawio.svg){#fig-Quantization-noise-in-Nyquist-rate-ADCs width=75%}
+
+In practice, an ideal quantizer is often described using a linear model, provided that certain assumptions about the statistical properties of the quantization error hold. The quantization error $e(n)$ is directly dependent on the quantizer input signal $q(n)$, as shown in the following Figure [@delarosa2013].
+
+![Multi-bit quantization error](figures/Multi_bit_quantization.drawio.svg){#fig-Multi-bit-quantization-error width=80%}
+
+If $q(n)$ is considered to vary randomly from sample to sample within the interval $[-\Delta/2, +\Delta/2]$, the quantization error $e(n)$ will also be uncorrelated between successive samples. Under these assumptions, the quantization error can be represented as a random process following a uniform probability distribution within the range $[-\Delta/2, +\Delta/2]$, as shown in the following Figure [@delarosa2013].
+
+![Probability density function (PDF)](figures/PDF.drawio.svg){#fig-Probability-density-function width=64%}
+
+Before sampling, quantization noise exhibits characteristics similar to white noise in the frequency domain, maintaining a constant power spectral density across the entire frequency range. The power associated with the quantization error can thus be computed as [@delarosa2013]:
+
+$$
+\overline{e^2} = \sigma_e^2 = \int_{-\infty}^{\infty} e^2 \, \text{PDF}(e) \, de = \frac{1}{\Delta} \int_{-\Delta/2}^{+\Delta/2} e^2 \, de = \frac{\Delta^2}{12}. \tag{3}
+$$
+
+The former assumption implies that the power of the quantization error will also be uniformly distributed in the range $[-f_s/2, +f_s/2]$, yielding [@delarosa2013]:
+
+$$
+\overline{e^2} = \int_{-\infty}^{\infty} S_E(f) \, df = S_E \int_{-f_s/2}^{+f_s/2} df = \frac{\Delta^2}{12}, \tag{4}
+$$
+
+so that the power spectral density (PSD) of the quantization error in this range is:
+
+$$
+S_E = \frac{\overline{e^2}}{f_s} = \frac{\Delta^2}{12 f_s}.\tag{5}
+$$
+
+These assumptions are referred to as the additive white noise approximation of the quantization error. They allow a quantizer, which is inherently deterministic and nonlinear, to be represented using a random linear model. This model is expressed as [@delarosa2013]:
+
+$$
+y(n) = k_q(n) + e(n) \tag{6} ,
+$$
+
+where $e(n)$ represents the quantization noise.  
+
+Using this approximation of quantization error as white noise, the performance of ideal ADCs can be easily evaluated. In a **Nyquist ADC**, where $f_s = 2 f_{\text{max}}$, all the quantization noise power remains within the signal band and appears at the ADC output as part of the input signal itself, as illustrated in the Figure "FFT diagram of a multi-bit ADC [@integrated2003demystifying]".
+
+Conversely, if an oversampled signal is quantized, only a fraction of the total quantization noise power lies within the signal band, as illustrated in the following Figure:
+
+![Quantization noise in Nyquist-rate ADCs](figures/oversampled_spectrum_noise.drawio.svg){#fig-Quantization-noise-in-Nyquist-rate-ADCs width=100%}
+
+While the **SNR** remains unchanged, the noise energy is now distributed across a broader frequency range [@integrated2003demystifying]. The in-band noise power (IBN) caused by the quantization process in an ideal oversampling ADC is thus [@pavan2017understanding]:
+
+$$
+\text{IBN} = \int_{-f_{\text{max}}}^{+f_{\text{max}}} S_E(f) \, df = \int_{-f_{\text{max}}}^{+f_{\text{max}}} \frac{\Delta^2}{12 f_s} \, df = \frac{\Delta^2}{12 \text{OSR}} \tag{7},
+$$
+where $S_E(f)$ is the quantization error power spectral density, $\Delta$ is the quantization resolution, $f_s$ is the sampling frequency, and OSR represents the oversampling ratio [@pavan2017understanding].
+
+Note that the SNR for a 1-bit ADC is 7.78 dB (6.02 + 1.76). Each factor-of-4 oversampling increases the SNR by 6 dB, and each 6 dB increase corresponds to gaining one additional bit of resolution. A 1-bit ADC with 24× oversampling can achieve a resolution of four bits. However, achieving 14-bit resolution would require oversampling by a factor of $4^{15}$, which is impractical [@integrated2003demystifying]. 
+
+Sigma-delta converters address this limitation through noise shaping, a technique that enables a gain of more than 6 dB per factor-of-4 oversampling [@integrated2003demystifying].
 
 ## Noise shaping
 
+To further improve the conversion resolution at the same sampling frequency $f_s$ and with the same number of ADC bits, noise shaping can be applied. This is accomplished by high-pass filtering the quantization noise to displace most of its power from low frequencies, where the input signal spectrum resides, to higher frequencies near $f_s/2$ [@bajdechi2004systematic], ensuring that most of its power is moved outside the signal band [@delarosa2013].
+
+To understand quantization noise, the system can be analyzed from different perspectives. Starting with @fig-first_order_delta_sigma_modulator_time_domain, the 1-bit DAC in the feedback loop can be observed. The primary role of the feedback DAC is to keep the integrator's average output near the comparator's reference level. The density of ones at the modulator output is proportional to the input signal. As the input increases, the comparator generates a higher number of ones, and conversely, for a decreasing input, fewer ones are produced. By summing the error voltage, the integrator acts as a low-pass filter for the input signal and a high-pass filter for the quantization noise. As a result, most of the quantization noise is shifted to higher frequencies [@integrated2003demystifying]. The discrete-time representation highlights the quantization noise shaping effect. The modulator output consists of the input signal plus the difference between consecutive quantization errors, expressed as $e_i - e_{i-1}$. As the formula shows, the quantization noise is the differnce between the current quantization error $e_i$ and the previous quantization error $e_i-1$.
+
+The system is illustrated in the frequency domain in @fig-first_order_delta_sigma_modulator_frequency_domain. It shows that the combination of the integrator and sampling strategy implements a noise-shaping filter on the digital output code. In the frequency domain, the time-domain output pulses appear as the input signal (or spur) and shaped noise. The noise characteristics are the key to understanding the modulator’s frequency operation and the ability of the Delta-Sigma ADC to achieve such high resolution.
+
+### Linear Model
+
+To better understand noise shaping, it is also useful to refer to a linear model.
+
+![Ideal linear model](figures/Linear_model.drawio.svg){#fig-Ideal-linear-model width=80%}
+
+@fig-Ideal-linear-model shows a negative feedback system. Here, $k_q$ refers to the gain factor of the quantization error and can be chosen arbitrarily in the case of a 1-bit quantizer. The model aims to improve the understanding that the goal is to have a frequency-dependent gain. This gain should be infinite at low frequencies so that the NTF has a small magnitude at low frequencies. The lowest-order system with these characteristics is an integrator [@pavan2017understanding]
+
+For the system, we see that:
+
+$$
+Y(z) = 1 X(z) + (1 - z^{-1}) E(z).\tag{8}
+$$
+
+Here, 1 is the signal transfer function (STF), NTF is the noise transfer function. The STF is unity. The NTF, $(1 - z^{-1})$, represents a first-order high-pass response with a transmission zero at dc ($\omega$ $= 0$, or, $z = 1$) [@pavan2017understanding].
+
+This makes sense since the gain of the forward amplifier is infinite at DC. The logarithmic plot of the magnitude response of the NTF in log scale shows the first-order nature of the high-pass response, increasing at a rate of 20 dB per decade [@pavan2017understanding].
+
+$$
+\text{IBN} = \frac{\Delta^2}{24\pi} \int_{-\frac{\pi}{OSR}}^{\frac{\pi}{OSR}} |(1 - e^{-j\omega})|^2 d\omega 
+= \frac{\Delta^2}{12\pi} \int_{0}^{\frac{\pi}{OSR}} 4 \sin^2\left(\frac{\omega}{2}\right) d\omega
+$$
+
+$$
+\approx \frac{\Delta^2}{12\pi} \int_{0}^{\frac{\pi}{OSR}} \omega^2 d\omega 
+= \frac{\Delta^2}{36\pi} \frac{\pi^3}{OSR^3}.
+$$
+
+The in-band noise power decreases proportionally to $OSR^{-3}$. When the oversampling ratio (OSR) is doubled, the in-band noise power reduces by 9 dB, which results in an effective resolution improvement of 1.5 bits. In contrast, basic oversampling without noise shaping only increases resolution by 0.5 bits for each doubling of the OSR. In principle, achieving high accuracy is possible by selecting a sufficiently large $OSR$. However, combining oversampling with noise shaping significantly reduces the required OSR value. From a spectral perspective, quantization noise is suppressed at lower frequencies and shifted towards higher frequencies through high-pass filtering. This technique characterizes a _first-order noise-shaped converter_, commonly referred to as a first-order $\Delta\Sigma$ converter [@pavan2017understanding].
+
+![Single chain with first-order Delta-Sigma loop](figures/11Mod.drawio.svg){#fig-Single-chain-with-first-order-Delta-Sigma-loop width=80%}
+
+The system diagram of a first-order Sigma-Delta converter is illustrated in @fig-Single-chain-with-first-order-Delta-Sigma-loop. The output consists of the input signal $x$ combined with the quantization error, defined as $e = y - x$. Consequently, 
+
+$$
+Y(z) = z^{-1} X(z) + (1 - z^{-1}) E(z). \tag{8}
+$$
+
+The quantization error is attenuated in the signal band through first-order noise shaping, characterized by the transfer function $(1 - z^{-1})$, which has a zero at DC [@pavan2017understanding].
+
+## Second-Order Delta-Sigma Modulation
+
+A modulator that integrates the input signal twice instead of just once is an effective way to reduce in-band quantization noise. @fig-second-order-delta-sigma-modulator illustrates a 1-bit, second-order modulator that uses two integrators instead of one. In this case, the noise term depends not only on the previous error but also on the two preceding errors.
+
+![Second-order Delta-Sigma modulator](figures/22Mod.drawio.svg){#fig-second-order-delta-sigma-modulator width=100%}
+
+Increasing the resolution and the effective number of bits (ENOB) in a delta-sigma modulator can be achieved by incorporating an additional integrator and feedback path. A linearized analysis in this scenario leads to the expression:
+
+$$
+Y(z) = z^{-1} X(z) + (1 - z^{-1})^2E(z). \tag{9}
+$$
+
+This shows that the noise transfer function (NTF) takes the form (1 - z^{-1})^2 in the z-domain, applying a shaping function of (2 sin(ω/2))^4 to the power spectral density (PSD). As a result, doubling the oversampling ratio (OSR) leads to an increase of approximately 2.5 bits in resolution. This is a significantly better trade-off compared to a first-order modulator.
+
+By incorporating more integrators and feedback branches within the loop, it is possible to achieve higher-order noise transfer functions. In the case of an L-th order loop filter, the NTF follows the form:
+
+$$ 
+NTF(z) = (1 - z^{-1})^L. \tag{10}
+$$ 
+
+Under these conditions, the in-band noise power is given by:
+
+$$ 
+IBN = \frac{\pi^{2L} e^2_{rms}}{(2L + 1) OSR^{2L+1}}. \tag{11}
+$$
+
+Furthermore, doubling the OSR increases the resolution by approximately (L + 0.5) bits.
+
+::: {.callout-important title="The Trade-Offs of High-Order Delta-Sigma Modulators"}
+
+The previous discussion suggests that a delta-sigma loop with a carefully chosen, very high-order NTF could, in theory, achieve exceptionally high performance. However, if something sounds too good to be true, it probably is. In practice, high-order loops introduce stability challenges that have not been considered so far. These limitations reduce the achievable resolution to a lower value than the theoretical predictions.
+
+Moreover, second- and higher-order modulators come with additional drawbacks, including increased complexity, multiple feedback loops, and greater design difficulty.
+
+:::
+
 ## Digital Filtering
+Das 1-bit pwm signal ist für weitere analysen nicht geeignet. Für audioanwendungen verwenden. um audiotreiber zu versorgen. das man das pwm signal als mp3 signal quasi sehen kann und direkt damit eine audiostufe treiben kann. erstmal für analyse nicht praktisch.
+
+The undesirable characteristics of the modulator output include high-frequency noise and a high-speed, 1-bit output rate. Once the signal is in the digital domain, a low-pass digital filter can be applied to attenuate the high-frequency noise, while a decimator filter can be used to reduce the output data rate [@baker2011delta].
+
+The digital filter function applies a low-pass filter by first sampling the 1-bit data stream from the modulator. An averaging filter is the most commonly used technique in sigma-delta converters [@baker2011delta].
+
+A down-sampler retains every $M$-th sample of the input sequence and removes the $M$ - 1 intermediate samples to generate the output sequence. By removing samples, down-sampling increases the sampling period.
+
+If the input sampling rate is defined as $F_T = \frac{1}{T}$, then the output sampling rate $F_M$ is related to $F_T$ as follows:
+
+$$
+F_M = \frac{1}{T_M} = \frac{1}{M T} = \frac{F_T}{M} \tag{12}
+$$
+
+This means that the sampling rate is reduced by a factor of $1/M$, meaning that after down-sampling, the new sampling frequency is a fraction of the original rate.
+
+It is also important to examine the frequency-domain relation of a down-sampler. The relationship between input and output in the z-transform domain can be determined by substituting the expression for \(X_{\text{int}}(z)\) into \(Y(z) = X_{\text{int}}(z^{1/M})\), which results in:  
+  
+$$
+Y(z) = \frac{1}{M} \sum_{k=0}^{M-1} X\left(z^{1/M} W_M^k\right) \tag{13}
+$$
+  
+This equation shows that the output spectrum consists of a sum of $M$ stretched and shifted copies of the input spectrum, scaled by a factor of $1/M$.  
+
+The output spectrum of a down-sampler with a factor of $M$ is given by:  
+ 
+$$
+Y(e^{j\omega}) = \frac{1}{M} \sum_{k=0}^{M-1} X\left(e^{j(\omega - 2\pi k)/M}\right) \tag{14}
+$$
+ 
+Aliasing in $Y(e^{j\omega})$ is completely avoided if and only if:  
+  
+$$
+X(e^{j\omega}) = 0 \quad \text{for} \quad \frac{\pi}{M} \leq |\omega| \leq \pi \tag{15}
+$$
+ 
+This means that $x[n]$ must be band-limited to $\pm \pi / M$.  
 
 ## Decimation
