@@ -9,7 +9,7 @@
 <meta name="author" content="Erdem Agfirat">
 <meta name="author" content="Atakan Baydogan">
 <meta name="author" content="Agah Osman Celebi">
-<meta name="dcterms.date" content="2025-03-04">
+<meta name="dcterms.date" content="2025-03-15">
 
 <title>Analog Circuit Design</title>
 <style>
@@ -23,6 +23,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -101,15 +135,57 @@ window.Quarto = {
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
   <ul>
-  <li><a href="#sampling" id="toc-sampling" class="nav-link" data-scroll-target="#sampling"><span class="header-section-number">1.1</span> Sampling</a></li>
-  <li><a href="#quantization" id="toc-quantization" class="nav-link" data-scroll-target="#quantization"><span class="header-section-number">1.2</span> Quantization</a></li>
-  </ul></li>
-  <li><a href="#delta-sigma-adcs" id="toc-delta-sigma-adcs" class="nav-link" data-scroll-target="#delta-sigma-adcs"><span class="header-section-number">2</span> Delta-Sigma ADCs</a>
+  <li><a href="#system-overview" id="toc-system-overview" class="nav-link" data-scroll-target="#system-overview"><span class="header-section-number">1.1</span> System Overview</a>
   <ul>
-  <li><a href="#oversampling" id="toc-oversampling" class="nav-link" data-scroll-target="#oversampling"><span class="header-section-number">2.1</span> Oversampling</a></li>
-  <li><a href="#noise-shaping" id="toc-noise-shaping" class="nav-link" data-scroll-target="#noise-shaping"><span class="header-section-number">2.2</span> Noise shaping</a></li>
-  <li><a href="#digital-filtering" id="toc-digital-filtering" class="nav-link" data-scroll-target="#digital-filtering"><span class="header-section-number">2.3</span> Digital Filtering</a></li>
-  <li><a href="#decimation" id="toc-decimation" class="nav-link" data-scroll-target="#decimation"><span class="header-section-number">2.4</span> Decimation</a></li>
+  <li><a href="#adxl335-block-diagram" id="toc-adxl335-block-diagram" class="nav-link" data-scroll-target="#adxl335-block-diagram"><span class="header-section-number">1.1.1</span> ADXL335 Block Diagram</a></li>
+  <li><a href="#ads1115-block-diagram" id="toc-ads1115-block-diagram" class="nav-link" data-scroll-target="#ads1115-block-diagram"><span class="header-section-number">1.1.2</span> ADS1115 Block Diagram</a></li>
+  <li><a href="#esp8266-pinout-diagram" id="toc-esp8266-pinout-diagram" class="nav-link" data-scroll-target="#esp8266-pinout-diagram"><span class="header-section-number">1.1.3</span> ESP8266 Pinout Diagram</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#analog-to-digital-converter" id="toc-analog-to-digital-converter" class="nav-link" data-scroll-target="#analog-to-digital-converter"><span class="header-section-number">2</span> Analog-to-Digital Converter</a>
+  <ul>
+  <li><a href="#sampling" id="toc-sampling" class="nav-link" data-scroll-target="#sampling"><span class="header-section-number">2.1</span> Sampling</a></li>
+  <li><a href="#quantization" id="toc-quantization" class="nav-link" data-scroll-target="#quantization"><span class="header-section-number">2.2</span> Quantization</a></li>
+  </ul></li>
+  <li><a href="#delta-sigma-adcs" id="toc-delta-sigma-adcs" class="nav-link" data-scroll-target="#delta-sigma-adcs"><span class="header-section-number">3</span> Delta-Sigma ADCs</a>
+  <ul>
+  <li><a href="#system-overview-1" id="toc-system-overview-1" class="nav-link" data-scroll-target="#system-overview-1"><span class="header-section-number">3.1</span> System Overview</a></li>
+  <li><a href="#fundamental-concepts" id="toc-fundamental-concepts" class="nav-link" data-scroll-target="#fundamental-concepts"><span class="header-section-number">3.2</span> Fundamental Concepts</a></li>
+  <li><a href="#oversampling" id="toc-oversampling" class="nav-link" data-scroll-target="#oversampling"><span class="header-section-number">3.3</span> Oversampling</a></li>
+  <li><a href="#noise-shaping" id="toc-noise-shaping" class="nav-link" data-scroll-target="#noise-shaping"><span class="header-section-number">3.4</span> Noise shaping</a>
+  <ul>
+  <li><a href="#linear-model" id="toc-linear-model" class="nav-link" data-scroll-target="#linear-model"><span class="header-section-number">3.4.1</span> Linear Model</a></li>
+  </ul></li>
+  <li><a href="#second-order-delta-sigma-modulation" id="toc-second-order-delta-sigma-modulation" class="nav-link" data-scroll-target="#second-order-delta-sigma-modulation"><span class="header-section-number">3.5</span> Second-Order Delta-Sigma Modulation</a></li>
+  <li><a href="#digital-filtering" id="toc-digital-filtering" class="nav-link" data-scroll-target="#digital-filtering"><span class="header-section-number">3.6</span> Digital Filtering</a></li>
+  <li><a href="#decimation" id="toc-decimation" class="nav-link" data-scroll-target="#decimation"><span class="header-section-number">3.7</span> Decimation</a></li>
+  </ul></li>
+  <li><a href="#implementation-and-analysis-of-behavior-with-matlab-and-simulink" id="toc-implementation-and-analysis-of-behavior-with-matlab-and-simulink" class="nav-link" data-scroll-target="#implementation-and-analysis-of-behavior-with-matlab-and-simulink"><span class="header-section-number">4</span> Implementation and Analysis of Behavior with MATLAB and Simulink</a>
+  <ul>
+  <li><a href="#system-design" id="toc-system-design" class="nav-link" data-scroll-target="#system-design"><span class="header-section-number">4.1</span> System Design</a></li>
+  </ul></li>
+  <li><a href="#switched-capacitor" id="toc-switched-capacitor" class="nav-link" data-scroll-target="#switched-capacitor"><span class="header-section-number">5</span> Switched Capacitor</a>
+  <ul>
+  <li><a href="#clock-phases-in-switched-capacitor-circuits" id="toc-clock-phases-in-switched-capacitor-circuits" class="nav-link" data-scroll-target="#clock-phases-in-switched-capacitor-circuits"><span class="header-section-number">5.1</span> Clock Phases in Switched Capacitor Circuits</a>
+  <ul>
+  <li><a href="#non-overlapping-clock-phases" id="toc-non-overlapping-clock-phases" class="nav-link" data-scroll-target="#non-overlapping-clock-phases"><span class="header-section-number">5.1.1</span> Non-overlapping Clock Phases</a></li>
+  </ul></li>
+  <li><a href="#timing-diagrams-for-switched-capacitor-operation" id="toc-timing-diagrams-for-switched-capacitor-operation" class="nav-link" data-scroll-target="#timing-diagrams-for-switched-capacitor-operation"><span class="header-section-number">5.2</span> Timing Diagrams for Switched Capacitor Operation</a></li>
+  <li><a href="#basic-switched-capacitor-circuit-operation" id="toc-basic-switched-capacitor-circuit-operation" class="nav-link" data-scroll-target="#basic-switched-capacitor-circuit-operation"><span class="header-section-number">5.3</span> Basic Switched Capacitor Circuit Operation</a>
+  <ul>
+  <li><a href="#operating-principle" id="toc-operating-principle" class="nav-link" data-scroll-target="#operating-principle"><span class="header-section-number">5.3.1</span> Operating Principle</a></li>
+  </ul></li>
+  <li><a href="#ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator" id="toc-ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator" class="nav-link" data-scroll-target="#ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator"><span class="header-section-number">5.4</span> LTSpice Simulation of an Idealized Second-Order Sigma-Delta Modulator</a>
+  <ul>
+  <li><a href="#key-components-and-operation" id="toc-key-components-and-operation" class="nav-link" data-scroll-target="#key-components-and-operation"><span class="header-section-number">5.4.1</span> Key Components and Operation</a></li>
+  </ul></li>
+  <li><a href="#output-signals-of-the-first-and-second-integrator-stages" id="toc-output-signals-of-the-first-and-second-integrator-stages" class="nav-link" data-scroll-target="#output-signals-of-the-first-and-second-integrator-stages"><span class="header-section-number">5.5</span> Output Signals of the First and Second Integrator Stages</a>
+  <ul>
+  <li><a href="#integrator-1-output---vvx1" id="toc-integrator-1-output---vvx1" class="nav-link" data-scroll-target="#integrator-1-output---vvx1"><span class="header-section-number">5.5.1</span> Integrator 1 Output - V(vx1)</a></li>
+  <li><a href="#integrator-2-output---vvx2" id="toc-integrator-2-output---vvx2" class="nav-link" data-scroll-target="#integrator-2-output---vvx2"><span class="header-section-number">5.5.2</span> Integrator 2 Output - V(vx2)</a></li>
+  <li><a href="#output-waveforms-visualization" id="toc-output-waveforms-visualization" class="nav-link" data-scroll-target="#output-waveforms-visualization"><span class="header-section-number">5.5.3</span> Output Waveforms Visualization</a></li>
+  <li><a href="#interpretation-of-results" id="toc-interpretation-of-results" class="nav-link" data-scroll-target="#interpretation-of-results"><span class="header-section-number">5.5.4</span> Interpretation of Results</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -156,7 +232,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025-03-04</p>
+      <p class="date">2025-03-15</p>
     </div>
   </div>
   
@@ -170,6 +246,64 @@ window.Quarto = {
 
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>As the availability of standardized integrated circuit solutions decreases, the demand for tailored, application-specific designs is on the rise <span class="citation" data-cites="Dobkin2011">Dobkin and Williams (<a href="#ref-Dobkin2011" role="doc-biblioref">2011</a>)</span>. In response to this trend, students participating in the “Concept Engineering Mixed-Technology Systems” course, led by Professor Meiners at The City University of Applied Sciences, have been given the task of designing an Analog-to-Digital Converter (ADC). The aim is to develop a suitable replacement for the Texas Instruments ADS1115, tailored to meet the requirements of a specified measurement system.</p>
+<p>The role of data conversion is fundamental in modern electronics. As digital processing technology continues to advance, speeds have reached unprecedented levels, and semiconductor components are now manufactured with nanometer precision, enabling Gigahertz-level data rates as a standard. Despite these technological strides, the physical world remains inherently analog, creating a necessity for reliable conversion techniques to interface analog signals with high-performance digital systems <span class="citation" data-cites="kester2005data">Kester (<a href="#ref-kester2005data" role="doc-biblioref">2005</a>)</span>.</p>
+<p>In modern mixed-signal circuits, analog signal processing is increasingly complemented by digital signal processing. This shift allows for the use of lower-quality analog components, offset by the complexity and efficiency of digital systems <span class="citation" data-cites="Baker2008">R. J. Baker (<a href="#ref-Baker2008" role="doc-biblioref">2008</a>)</span>. From an engineering perspective, this trade-off plays a crucial role in designing high-performance ADCs, where digital compensation techniques can improve accuracy while reducing reliance on precise analog circuitry. As a result, contemporary ADC architectures integrate sophisticated digital algorithms to enhance resolution and dynamic range while minimizing the impact of analog imperfections.</p>
+<p>This necessity spans multiple fields, including acoustics, optics, and mechanical sensing. To ensure accurate digital representation of analog data, ADCs must operate with high speed, precision, and reliability, making them critical components in modern electronic applications.</p>
+<p>The fundamental concept of interfacing the analog and digital domains is illustrated in <strong>Figure 1</strong>. The diagram shows the sequential flow from analog input signals, through analog-to-digital conversion, followed by digital data processing, and finally through digital-to-analog conversion to produce an analog output. This process highlights the critical role of reliable data conversion techniques in modern mixed-signal systems.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/Domains.png" class="img-fluid figure-img"></p>
+<figcaption>Analog and Digital Domains</figcaption>
+</figure>
+</div>
+<p><em>Figure 1: Interfacing Between Analog and Digital Domains.</em></p>
+<p>This report explores one of the most effective ADC architectures: the Sigma-Delta converter. The following sections provide a theoretical overview of ADC operation, analyze key performance characteristics at the system level, and develop foundational circuit models that replicate the desired conversion behavior. Lastly, a detailed circuit design will be presented, verified through SPICE simulations in the xschem design environment, outlining practical implementation strategies for integrated circuit fabrication.</p>
+<section id="system-overview" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="system-overview"><span class="header-section-number">1.1</span> System Overview</h2>
+<p>The measurement system under consideration for this semester’s project is a classical mixed-signal architecture designed for precise data acquisition and processing. At its core, the system utilizes an <strong>accelerometer</strong> as the primary analog sensor, responsible for capturing physical acceleration data from the environment. This analog signal is inherently continuous and requires conversion into the digital domain to enable efficient processing, analysis, and communication.</p>
+<p>To achieve this, the analog output from the accelerometer is fed into an <strong>ADC</strong>. The ADC performs the crucial task of sampling the continuous analog signal and quantizing it into discrete digital values. These digital signals can then be processed by a <strong>microontroller</strong>, which serves as the central processing unit for the system. Within the microcontroller, further operations such as filtering, data interpretation, and wireless communication can be performed, depending on the application requirements.</p>
+<p>For the hardware implementation of this signal chain, the following components have been selected:</p>
+<ul>
+<li><p><strong>ADXL335 Accelerometer</strong><br>
+A low-power, three-axis analog output accelerometer capable of measuring acceleration with a full-scale range of ±3 g. It provides a simple and reliable analog voltage output proportional to acceleration, making it ideal for integration into the system.</p></li>
+<li><p><strong>ADS1115 ADC</strong><br>
+A high-precision, 16-bit analog-to-digital converter from Texas Instruments. It features a programmable gain amplifier (PGA) and an I²C-compatible interface, offering excellent resolution and flexibility for capturing low-level analog signals from the accelerometer.</p></li>
+<li><p><strong>ESP8266 Microcontroller</strong><br>
+A highly integrated microcontroller with built-in Wi-Fi capability. It not only handles the digital data processing but also enables wireless communication, making it suitable for IoT-based measurement applications.</p></li>
+</ul>
+<p>This system architecture ensures a robust interface between the analog sensing domain and the digital processing domain, highlighting the importance of accurate data conversion and efficient signal processing in modern measurement systems.</p>
+<p>The high-level architecture of the described measurement system is illustrated in <strong>Figure 2</strong> below. It shows the data flow from the analog accelerometer (ADXL335), through the analog-to-digital converter (ADS1115), and finally to the digital microcontroller (ESP8266) for further processing and communication.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/Measurement_System.png" class="img-fluid figure-img"></p>
+<figcaption>Top-Level Measurement System</figcaption>
+</figure>
+</div>
+<p><em>Figure 2: Top-Level Block Diagram of the Measurement System.</em></p>
+<p>In addition to the top-level architecture, the internal structure and functionality of the individual components are shown in the following figures. These diagrams provide insight into the signal flow and the key subsystems involved in the measurement system.</p>
+<section id="adxl335-block-diagram" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="adxl335-block-diagram"><span class="header-section-number">1.1.1</span> ADXL335 Block Diagram</h3>
+<p><strong>Figure 3</strong> presents the internal block diagram of the <strong>ADXL335 accelerometer</strong>. It consists of a three-axis MEMS sensor, followed by an AC amplifier and demodulator stage. Each axis output is then buffered through separate output amplifiers, providing analog voltage signals corresponding to acceleration along the X, Y, and Z axes. These outputs are routed to external filtering components to stabilize the signal.</p>
+<p><img src="figures/ADXL335.png" class="img-fluid" alt="ADXL335 Block Diagram"><br>
+<em>Figure 3: Functional Block Diagram of the ADXL335 Accelerometer</em> <span class="citation" data-cites="Analog_ADXL335">Analog Devices (<a href="#ref-Analog_ADXL335" role="doc-biblioref">2019</a>)</span></p>
+</section>
+<section id="ads1115-block-diagram" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="ads1115-block-diagram"><span class="header-section-number">1.1.2</span> ADS1115 Block Diagram</h3>
+<p><strong>Figure 4</strong> illustrates the functional block diagram of the <strong>ADS1115 Analog-to-Digital Converter</strong>. The ADC features a multiplexer (MUX) that allows for the selection between multiple input channels, followed by a programmable gain amplifier (PGA). The 16-bit delta-sigma ADC performs high-resolution conversion of the input signal. An internal voltage reference, oscillator, and I²C interface facilitate accurate conversion and communication with external devices. The comparator and ALERT/RDY functionality provide additional flexibility for system integration.</p>
+<p><img src="figures/ADS1115.png" class="img-fluid" alt="ADS1115 Block Diagram"><br>
+<em>Figure 4: Functional Block Diagram of the ADS1115 ADC.</em> <span class="citation" data-cites="TI_ADS1115">Texas Instruments (<a href="#ref-TI_ADS1115" role="doc-biblioref">2015</a>)</span></p>
+</section>
+<section id="esp8266-pinout-diagram" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="esp8266-pinout-diagram"><span class="header-section-number">1.1.3</span> ESP8266 Pinout Diagram</h3>
+<p>Finally, <strong>Figure 5</strong> displays the <strong>ESP8266 microcontroller module pinout</strong>. This microcontroller includes GPIO pins, I²C and SPI communication interfaces, and a built-in Wi-Fi module. The diagram highlights the various available digital interfaces for connecting to peripheral devices, as well as power and ground connections necessary for integration into the system. The ESP8266 is responsible for receiving the digital data from the ADS1115 and handling subsequent processing and wireless communication.</p>
+<p><img src="figures/ESP8266.png" class="img-fluid" alt="ESP8266 Pinout Diagram"><br>
+<em>Figure 5: Pinout Diagram of the ESP8266 Microcontroller.</em> <span class="citation" data-cites="Techrm_ESP8266">Techrm (<a href="#ref-Techrm_ESP8266" role="doc-biblioref">2022</a>)</span></p>
+</section>
+</section>
+</section>
+<section id="analog-to-digital-converter" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Analog-to-Digital Converter</h1>
 <p>In an increasingly digitalized world, microprocessors and digital systems form the core of almost all modern control and communication systems. Whether in smartphones, industrial automation, or high-speed networks, digital processors handle central computing tasks and make real-time decisions. However, while processing occurs purely in the digital domain, the physical world remains analog. Sensors, actuators, and other external devices generate continuous analog signals that must first be converted into a discrete form for digital processing <span class="citation" data-cites="bajdechi2004systematic">(<a href="#ref-bajdechi2004systematic" role="doc-biblioref">Bajdechi 2004</a>)</span>.</p>
 <p>This is where mixed-signal systems come into play, bridging the gap between the analog and digital domains. As the “brain” of nearly every control and communication system, the digital processor interacts with the external world through analog-to-digital converters (ADCs) for receiving analog signals and digital-to-analog converters (DACs) for sending analog outputs <span class="citation" data-cites="bajdechi2004systematic">(<a href="#ref-bajdechi2004systematic" role="doc-biblioref">Bajdechi 2004</a>)</span>.</p>
 <p>As shown in <a href="#fig-adc-conversion" class="quarto-xref">Figure&nbsp;1</a>, the general block diagram of an ADC designed for converting low-pass signals consists of an anti-aliasing filter, a sampler, and a quantizer <span class="citation" data-cites="delarosa2013">(<a href="#ref-delarosa2013" role="doc-biblioref">Rosa and Río 2013</a>)</span>.</p>
@@ -183,8 +317,8 @@ Figure&nbsp;1: A/D Conversion
 </figcaption>
 </figure>
 </div>
-<section id="sampling" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="sampling"><span class="header-section-number">1.1</span> Sampling</h2>
+<section id="sampling" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sampling"><span class="header-section-number">2.1</span> Sampling</h2>
 <p>A set of key components is essential for converting an analog signal into a discrete-time representation. A fundamental aspect of this process is sampling, as it ensures the conversion of an analog signal into a discrete-time signal <span class="citation" data-cites="bajdechi2004systematic">(<a href="#ref-bajdechi2004systematic" role="doc-biblioref">Bajdechi 2004</a>)</span>.</p>
 <p>In practical applications, sampling can occur in one of three modes. If the highest frequency present in the signal is limited to <span class="math inline">\(f_{\max}\)</span>, the sampling approaches are categorized as follows <span class="citation" data-cites="williams2006electronic">(<a href="#ref-williams2006electronic" role="doc-biblioref">Williams and Taylor 2006</a>)</span>:</p>
 <ul>
@@ -194,27 +328,38 @@ Figure&nbsp;1: A/D Conversion
 </ul>
 <p>Critical sampling refers to setting the sampling rate to the lowest possible value that still satisfies the sampling theorem. If this condition is not met, aliasing occurs, preventing accurate reconstruction of the input signal due to overlapping frequency components. To ensure that the highest frequency of the analog signal remains below the Nyquist frequency, an analog prefilter - known as an anti-aliasing filter - is typically placed between the signal source and the ADC. A well-designed anti-aliasing filter effectively attenuates signal energy above the Nyquist frequency. In practice, the input signal is often affected by noise, which may contain frequency components outside the desired range. Therefore, it is also essential that the filter removes out-of-band noise, as it could otherwise alias into the signal band after sampling and degrade the quality of the sampled values <span class="citation" data-cites="pavan2017understanding">(<a href="#ref-pavan2017understanding" role="doc-biblioref">Pavan, Schreier, and Temes 2017</a>)</span>. Undersampling can occur either deliberately or unintentionally. In both scenarios, the sampling rate is chosen to be lower than the Nyquist frequency. As a result, aliasing takes place <span class="citation" data-cites="williams2006electronic">(<a href="#ref-williams2006electronic" role="doc-biblioref">Williams and Taylor 2006</a>)</span>.</p>
 <p>Furthermore, it is important to note that sampling results in a periodic repetition of the spectrum. The following example illustrates this:</p>
-<div id="fig-Periodic-repetition-of-the-spectrum" class="quarto-float quarto-figure quarto-figure-center anchored">
+<!-- ![Periodic repetition of the spectrum](figures/periodic_spectrum.svg){#fig-Periodic-repetition-of-the-spectrum} -->
+<div id="fig-Original-spectrum" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-Periodic-repetition-of-the-spectrum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figures/periodic_spectrum.svg" class="img-fluid figure-img">
+<div aria-describedby="fig-Original-spectrum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/spectrum.drawio.svg" class="img-fluid figure-img" style="width:75.0%">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Periodic-repetition-of-the-spectrum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Periodic repetition of the spectrum
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Original-spectrum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Original spectrum
+</figcaption>
+</figure>
+</div>
+<div id="fig-spectrum-repetition" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-spectrum-repetition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/periodic_repitition_spectrum.drawio.svg" class="img-fluid figure-img" style="width:75.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-spectrum-repetition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Periodic repetition of the spectrum
 </figcaption>
 </figure>
 </div>
 <p>If the conditions of the sampling theorem are met, the input signal can be fully reconstructed by filtering with an ideal low-pass filter with a cutoff frequency <span class="math inline">\({{\omega_g}}\)</span> and an amplitude of <span class="math inline">\({{T_a}}\)</span> <span class="citation" data-cites="goldenbaum2022grundlagen">(<a href="#ref-goldenbaum2022grundlagen" role="doc-biblioref">Goldenbaum 2022</a>)</span>:</p>
 <p><span class="math display">\[
-H_{LP}(\omega) = T_a \, \operatorname{rect}(\omega / 2\omega_g). \tag{1}
+H_{AAF}(\omega) = T_a \, \operatorname{rect}(\omega / 2\omega_g). \tag{1}
 \]</span></p>
 <div id="fig-Reconstruction-by-filtering-with-a-low-pass-filter" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-Reconstruction-by-filtering-with-a-low-pass-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figures/reconstruction.svg" class="img-fluid figure-img">
+<img src="figures/ideal_fitler.drawio.svg" class="img-fluid figure-img" style="width:75.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Reconstruction-by-filtering-with-a-low-pass-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Reconstruction by filtering with a low-pass filter
+Figure&nbsp;4: Reconstruction by filtering with a low-pass filter
 </figcaption>
 </figure>
 </div>
@@ -225,22 +370,22 @@ Figure&nbsp;3: Reconstruction by filtering with a low-pass filter
 <img src="figures/sinc_interpolation.svg" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Reconstruction-of-a-sampled-signal-using-sinc-interpolation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Reconstruction of a sampled signal using sinc interpolation
+Figure&nbsp;5: Reconstruction of a sampled signal using sinc interpolation
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="quantization" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="quantization"><span class="header-section-number">1.2</span> Quantization</h2>
+<section id="quantization" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="quantization"><span class="header-section-number">2.2</span> Quantization</h2>
 <p>Quantization is a nonlinear, memoryless operation <span class="citation" data-cites="pavan2017understanding">(<a href="#ref-pavan2017understanding" role="doc-biblioref">Pavan, Schreier, and Temes 2017</a>)</span>. It refers to the conversion of a continuous-valued signal into a signal with a finite set of values <span class="citation" data-cites="goldenbaum2022grundlagen">(<a href="#ref-goldenbaum2022grundlagen" role="doc-biblioref">Goldenbaum 2022</a>)</span>. Unlike the sampling process, quantization is an irreversible operation, leading to a loss in the resolution of the digitized signal <span class="citation" data-cites="delarosa2011sigmadelta">(<a href="#ref-delarosa2011sigmadelta" role="doc-biblioref">Rosa 2011</a>)</span>.</p>
 <p>The quantization operator is typically described by a quantization characteristic:</p>
 <div id="fig-Quantization-characteristic" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-Quantization-characteristic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figures/quantization_characteristic.drawio.svg" class="img-fluid figure-img" style="width:60.0%">
+<img src="figures/quantization_characteristic-Seite-2.drawio.svg" class="img-fluid figure-img" style="width:58.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Quantization-characteristic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Quantization characteristic <span class="citation" data-cites="goldenbaum2022grundlagen">(<a href="#ref-goldenbaum2022grundlagen" role="doc-biblioref">Goldenbaum 2022</a>)</span>
+Figure&nbsp;6: Quantization characteristic <span class="citation" data-cites="goldenbaum2022grundlagen">(<a href="#ref-goldenbaum2022grundlagen" role="doc-biblioref">Goldenbaum 2022</a>)</span>
 </figcaption>
 </figure>
 </div>
@@ -249,34 +394,97 @@ Figure&nbsp;5: Quantization characteristic <span class="citation" data-cites="go
 <p>The quantization process also imposes a limitation on the performance of an ideal ADC, as an error is introduced during the conversion of the input signal from a continuous to a discrete amplitude representation. This error, commonly known as quantization error, will be discussed in more detail in a later chapter.</p>
 </section>
 </section>
-<section id="delta-sigma-adcs" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Delta-Sigma ADCs</h1>
+<section id="delta-sigma-adcs" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Delta-Sigma ADCs</h1>
+<p>The general block diagram of a Delta-Sigma ADC is as follows:</p>
+<div id="fig-General-block-diagram-of-a-Delta-sigma-ADC" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-General-block-diagram-of-a-Delta-sigma-ADC-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/General_block_diagram.drawio.svg" class="img-fluid figure-img" style="width:105.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-General-block-diagram-of-a-Delta-sigma-ADC-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: General block diagram of a Delta-sigma ADC
+</figcaption>
+</figure>
+</div>
+<p>The topology includes an antialiasing filter, which band-limits the analog input signal to prevent aliasing during subsequent sampling. Oversampling significantly reduces the attenuation requirements of the AAF, allowing for smoother transition bands compared to Nyquist-rate ADCs. The central block, the Delta-Sigma modulator, performs oversampling and quantization of the band-limited analog signal. The quantization noise of the embedded quantizer is shaped in the frequency domain by introducing an appropriate loop filter <span class="math inline">\(H(z)\)</span> before it and enclosing them within a negative feedback loop. The decimation filter applies a highly selective digital filter to sharply remove out-of-band spectral components from the Sigma-Delta output, effectively eliminating most of the shaped quantization noise. Additionally, the decimator reduces the data rate from <span class="math inline">\(f_s\)</span> down to the Nyquist frequency while increasing the word length <span class="citation" data-cites="delarosa2013">(<a href="#ref-delarosa2013" role="doc-biblioref">Rosa and Río 2013</a>)</span>.</p>
+<section id="system-overview-1" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="system-overview-1"><span class="header-section-number">3.1</span> System Overview</h2>
+<!-- ![System overview](figures/System_overview.drawio.svg){#fig-Sysem-overview width=85%} -->
+<p>A Delta-Sigma converter operates as a 1-bit sampling system, where an analog input signal is sampled multiple times through oversampling. At its core, the Delta-Sigma modulator converts the analog signal into a high-speed, single-bit pulse stream while shaping the quantization noise. The modulator can be analyzed in both the time domain and frequency domain.</p>
+<div id="fig-first_order_delta_sigma_modulator_time_domain" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-first_order_delta_sigma_modulator_time_domain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/first_order_time_domain.drawio.svg" class="img-fluid figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-first_order_delta_sigma_modulator_time_domain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: First-order delta-sigma modulator in the time domain <span class="citation" data-cites="baker2011deltasigma">(<a href="#ref-baker2011deltasigma" role="doc-biblioref">B. Baker 2011b</a>)</span>
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-first_order_delta_sigma_modulator_time_domain" class="quarto-xref">Figure&nbsp;8</a> depicts the time-domain representation of the modulator. It consists of a difference amplifier, an integrator, and a comparator, with a feedback loop incorporating a 1-bit DAC.</p>
+<p>The system continuously calculates the difference between the input signal and a feedback signal, emphasizing changes rather than absolute values. This difference signal is then integrated, influencing the output direction. When the integrator output reaches the comparator threshold, the 1-bit ADC quantizes it into a binary value. The output is fed back through a 1-bit DAC, creating a closed-loop system that shapes the noise and stabilizes the signal. The resulting pulse waveform represents the input signal, and when averaged over time, it approximates the original analog input <span class="citation" data-cites="baker2011deltasigma">(<a href="#ref-baker2011deltasigma" role="doc-biblioref">B. Baker 2011b</a>)</span>. The DAC functions as a simple switch that connects the negative input of the difference amplifier to either a positive or negative reference voltage. Its primary role is to keep the integrator’s average output near the comparator’s reference level <span class="citation" data-cites="integrated2003demystifying">(<a href="#ref-integrated2003demystifying" role="doc-biblioref">Integrated 2003</a>)</span>.</p>
+<div id="fig-first_order_delta_sigma_modulator_frequency_domain" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-first_order_delta_sigma_modulator_frequency_domain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/first_order_freq_domain1.drawio.svg" class="img-fluid figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-first_order_delta_sigma_modulator_frequency_domain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: First-order delta-sigma modulator in the frequency domain
+</figcaption>
+</figure>
+</div>
+<p>In the frequency domain, the combiFnation of integration and oversampling functions as a noise-shaping filter, enabling high-resolution conversion by pushing noise outside the signal band.</p>
+<p>Thanks to these characteristics, Delta-Sigma ADCs are widely used in applications requiring high accuracy, such as audio processing, sensor technology, and precision measurements .</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Why is it called Delta-Sigma?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why is it called Delta-Sigma?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The name <strong>Delta-Sigma</strong> originates from the key mathematical operations performed in the modulator.</p>
+<ul>
+<li><strong>Delta (Δ)</strong> represents the difference operation. The system continuously calculates the difference between the input signal and the feedback signal, ensuring that it tracks changes rather than absolute values. This differentiation process helps in shaping the quantization noise.<br>
+</li>
+<li><strong>Sigma (Σ)</strong> refers to accumulation (or integration). After computing the difference, the error signal is integrated over time, effectively summing past values. This process shapes the noise spectrum, reducing in-band noise while pushing most of it to higher frequencies.</li>
+</ul>
+<p>Some sources use the term <strong>Sigma-Delta</strong> instead of <strong>Delta-Sigma</strong>, emphasizing the integration first. However, both terms describe the same modulation technique.</p>
+</div>
+</div>
+</section>
+<section id="fundamental-concepts" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="fundamental-concepts"><span class="header-section-number">3.2</span> Fundamental Concepts</h2>
 <div id="fig-Fundamental-concepts-of-the-Delta-Sigma-ADC" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-Fundamental-concepts-of-the-Delta-Sigma-ADC-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/concepts_delta_sigma_adc.drawio.svg" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Fundamental-concepts-of-the-Delta-Sigma-ADC-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Fundamental concepts of the Delta-Sigma ADC
+Figure&nbsp;10: Fundamental concepts of the Delta-Sigma ADC
 </figcaption>
 </figure>
 </div>
 <p>A Delta-Sigma ADC leverages advanced signal processing techniques to achieve higher resolution than conventional ADCs. Oversampling increases the sampling rate beyond the Nyquist frequency, spreading quantization noise over a wider frequency range. Noise shaping further pushes this noise into higher frequencies, where it can be effectively removed by digital filtering. Finally, decimation reduces the sample rate while preserving the signal’s integrity, resulting in a high-precision digital output.</p>
-<section id="oversampling" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="oversampling"><span class="header-section-number">2.1</span> Oversampling</h2>
+</section>
+<section id="oversampling" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="oversampling"><span class="header-section-number">3.3</span> Oversampling</h2>
 <p>If an ADC operates faster than <span class="math inline">\(2f_{\text{max}}\)</span>, it is considered an <strong>oversampled ADC</strong>. In this case, the <strong>oversampling ratio (OSR)</strong> is a design parameter that indicates how many times <span class="math inline">\(f_s\)</span> is larger than the minimal value required by the Nyquist theorem.</p>
 <p><span class="math display">\[
 OSR = \frac{f_s}{2 f_{\text{max}}}, \tag{2}
 \]</span></p>
-<p>where <span class="math inline">\(f_{\text{max}}\)</span> is the maximum signal frequency, which is the signal bandwidth [4].</p>
+<p>where <span class="math inline">\(f_{\text{max}}\)</span> is the maximum signal frequency, which is the signal bandwidth <span class="citation" data-cites="pavan2017understanding">(<a href="#ref-pavan2017understanding" role="doc-biblioref">Pavan, Schreier, and Temes 2017</a>)</span>.</p>
 <p>Oversampled A/D converters impose significantly less stringent requirements on the filter compared to Nyquist rate converters, as the signal is sampled at a frequency that far exceeds its bandwidth <span class="citation" data-cites="Boser1988">(<a href="#ref-Boser1988" role="doc-biblioref">Boser and Wooley 1988</a>)</span>. One advantage of oversampling ADCs is that they simplify the requirements for the AAF. It is important to note that the AAF for a Nyquist converter must have a sharp transition band, which often results in phase distortion for signal components near the cut-off frequency <span class="citation" data-cites="delarosa2011sigmadelta">(<a href="#ref-delarosa2011sigmadelta" role="doc-biblioref">Rosa 2011</a>)</span>.</p>
 <div id="fig-Antialiasing-filter-for-oversampling-ADCs" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-Antialiasing-filter-for-oversampling-ADCs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figures/oversampling.svg" class="img-fluid figure-img">
+<img src="figures/oversampled_spectrum.drawio.svg" class="img-fluid figure-img" style="width:100.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Antialiasing-filter-for-oversampling-ADCs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Antialiasing filter for oversampling ADCs
+Figure&nbsp;11: Antialiasing filter for oversampling ADCs
 </figcaption>
 </figure>
 </div>
@@ -284,29 +492,459 @@ Figure&nbsp;7: Antialiasing filter for oversampling ADCs
 <div id="fig-Quantization-noise-in-Nyquist-rate-ADCs" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-Quantization-noise-in-Nyquist-rate-ADCs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figures/quantization_noise.svg" class="img-fluid figure-img">
+<img src="figures/spectrum_repetition.drawio.svg" class="img-fluid figure-img" style="width:75.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Quantization-noise-in-Nyquist-rate-ADCs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Quantization noise in Nyquist-rate ADCs
+Figure&nbsp;12: Quantization noise in Nyquist-rate ADCs
 </figcaption>
 </figure>
 </div>
+<p>In practice, an ideal quantizer is often described using a linear model, provided that certain assumptions about the statistical properties of the quantization error hold. The quantization error <span class="math inline">\(e(n)\)</span> is directly dependent on the quantizer input signal <span class="math inline">\(q(n)\)</span>, as shown in the following Figure <span class="citation" data-cites="delarosa2013">(<a href="#ref-delarosa2013" role="doc-biblioref">Rosa and Río 2013</a>)</span>.</p>
+<div id="fig-Multi-bit-quantization-error" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Multi-bit-quantization-error-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/Multi_bit_quantization.drawio.svg" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Multi-bit-quantization-error-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13: Multi-bit quantization error
+</figcaption>
+</figure>
+</div>
+<p>If <span class="math inline">\(q(n)\)</span> is considered to vary randomly from sample to sample within the interval <span class="math inline">\([-\Delta/2, +\Delta/2]\)</span>, the quantization error <span class="math inline">\(e(n)\)</span> will also be uncorrelated between successive samples. Under these assumptions, the quantization error can be represented as a random process following a uniform probability distribution within the range <span class="math inline">\([-\Delta/2, +\Delta/2]\)</span>, as shown in the following Figure <span class="citation" data-cites="delarosa2013">(<a href="#ref-delarosa2013" role="doc-biblioref">Rosa and Río 2013</a>)</span>.</p>
+<div id="fig-Probability-density-function" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Probability-density-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/PDF.drawio.svg" class="img-fluid figure-img" style="width:64.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Probability-density-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14: Probability density function (PDF)
+</figcaption>
+</figure>
+</div>
+<p>Before sampling, quantization noise exhibits characteristics similar to white noise in the frequency domain, maintaining a constant power spectral density across the entire frequency range. The power associated with the quantization error can thus be computed as <span class="citation" data-cites="delarosa2013">(<a href="#ref-delarosa2013" role="doc-biblioref">Rosa and Río 2013</a>)</span>:</p>
+<p><span class="math display">\[
+\overline{e^2} = \sigma_e^2 = \int_{-\infty}^{\infty} e^2 \, \text{PDF}(e) \, de = \frac{1}{\Delta} \int_{-\Delta/2}^{+\Delta/2} e^2 \, de = \frac{\Delta^2}{12}. \tag{3}
+\]</span></p>
+<p>The former assumption implies that the power of the quantization error will also be uniformly distributed in the range <span class="math inline">\([-f_s/2, +f_s/2]\)</span>, yielding <span class="citation" data-cites="delarosa2013">(<a href="#ref-delarosa2013" role="doc-biblioref">Rosa and Río 2013</a>)</span>:</p>
+<p><span class="math display">\[
+\overline{e^2} = \int_{-\infty}^{\infty} S_E(f) \, df = S_E \int_{-f_s/2}^{+f_s/2} df = \frac{\Delta^2}{12}, \tag{4}
+\]</span></p>
+<p>so that the power spectral density (PSD) of the quantization error in this range is:</p>
+<p><span class="math display">\[
+S_E = \frac{\overline{e^2}}{f_s} = \frac{\Delta^2}{12 f_s}.\tag{5}
+\]</span></p>
+<p>These assumptions are referred to as the additive white noise approximation of the quantization error. They allow a quantizer, which is inherently deterministic and nonlinear, to be represented using a random linear model. This model is expressed as <span class="citation" data-cites="delarosa2013">(<a href="#ref-delarosa2013" role="doc-biblioref">Rosa and Río 2013</a>)</span>:</p>
+<p><span class="math display">\[
+y(n) = k_q(n) + e(n) \tag{6} ,
+\]</span></p>
+<p>where <span class="math inline">\(e(n)\)</span> represents the quantization noise.</p>
+<p>Using this approximation of quantization error as white noise, the performance of ideal ADCs can be easily evaluated. In a <strong>Nyquist ADC</strong>, where <span class="math inline">\(f_s = 2 f_{\text{max}}\)</span>, all the quantization noise power remains within the signal band and appears at the ADC output as part of the input signal itself, as illustrated in the Figure “FFT diagram of a multi-bit ADC <span class="citation" data-cites="integrated2003demystifying">(<a href="#ref-integrated2003demystifying" role="doc-biblioref">Integrated 2003</a>)</span>”.</p>
+<p>Conversely, if an oversampled signal is quantized, only a fraction of the total quantization noise power lies within the signal band, as illustrated in the following Figure:</p>
+<div id="fig-Quantization-noise-in-Nyquist-rate-ADCs" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Quantization-noise-in-Nyquist-rate-ADCs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/oversampled_spectrum_noise.drawio.svg" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Quantization-noise-in-Nyquist-rate-ADCs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15: Quantization noise in Nyquist-rate ADCs
+</figcaption>
+</figure>
+</div>
+<p>While the <strong>SNR</strong> remains unchanged, the noise energy is now distributed across a broader frequency range <span class="citation" data-cites="integrated2003demystifying">(<a href="#ref-integrated2003demystifying" role="doc-biblioref">Integrated 2003</a>)</span>. The in-band noise power (IBN) caused by the quantization process in an ideal oversampling ADC is thus <span class="citation" data-cites="pavan2017understanding">(<a href="#ref-pavan2017understanding" role="doc-biblioref">Pavan, Schreier, and Temes 2017</a>)</span>:</p>
+<p><span class="math display">\[
+\text{IBN} = \int_{-f_{\text{max}}}^{+f_{\text{max}}} S_E(f) \, df = \int_{-f_{\text{max}}}^{+f_{\text{max}}} \frac{\Delta^2}{12 f_s} \, df = \frac{\Delta^2}{12 \text{OSR}} \tag{7},
+\]</span> where <span class="math inline">\(S_E(f)\)</span> is the quantization error power spectral density, <span class="math inline">\(\Delta\)</span> is the quantization resolution, <span class="math inline">\(f_s\)</span> is the sampling frequency, and OSR represents the oversampling ratio <span class="citation" data-cites="pavan2017understanding">(<a href="#ref-pavan2017understanding" role="doc-biblioref">Pavan, Schreier, and Temes 2017</a>)</span>.</p>
+<p>Note that the SNR for a 1-bit ADC is 7.78 dB (6.02 + 1.76). Each factor-of-4 oversampling increases the SNR by 6 dB, and each 6 dB increase corresponds to gaining one additional bit of resolution. A 1-bit ADC with 24× oversampling can achieve a resolution of four bits. However, achieving 14-bit resolution would require oversampling by a factor of <span class="math inline">\(4^{15}\)</span>, which is impractical <span class="citation" data-cites="integrated2003demystifying">(<a href="#ref-integrated2003demystifying" role="doc-biblioref">Integrated 2003</a>)</span>.</p>
+<p>Sigma-delta converters address this limitation through noise shaping, a technique that enables a gain of more than 6 dB per factor-of-4 oversampling <span class="citation" data-cites="integrated2003demystifying">(<a href="#ref-integrated2003demystifying" role="doc-biblioref">Integrated 2003</a>)</span>.</p>
 </section>
-<section id="noise-shaping" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="noise-shaping"><span class="header-section-number">2.2</span> Noise shaping</h2>
+<section id="noise-shaping" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="noise-shaping"><span class="header-section-number">3.4</span> Noise shaping</h2>
+<p>To further improve the conversion resolution at the same sampling frequency <span class="math inline">\(f_s\)</span> and with the same number of ADC bits, noise shaping can be applied. This is accomplished by high-pass filtering the quantization noise to displace most of its power from low frequencies, where the input signal spectrum resides, to higher frequencies near <span class="math inline">\(f_s/2\)</span> <span class="citation" data-cites="bajdechi2004systematic">(<a href="#ref-bajdechi2004systematic" role="doc-biblioref">Bajdechi 2004</a>)</span>, ensuring that most of its power is moved outside the signal band <span class="citation" data-cites="delarosa2013">(<a href="#ref-delarosa2013" role="doc-biblioref">Rosa and Río 2013</a>)</span>.</p>
+<p>To understand quantization noise, the system can be analyzed from different perspectives. Starting with <a href="#fig-first_order_delta_sigma_modulator_time_domain" class="quarto-xref">Figure&nbsp;8</a>, the 1-bit DAC in the feedback loop can be observed. The primary role of the feedback DAC is to keep the integrator’s average output near the comparator’s reference level. The density of ones at the modulator output is proportional to the input signal. As the input increases, the comparator generates a higher number of ones, and conversely, for a decreasing input, fewer ones are produced. By summing the error voltage, the integrator acts as a low-pass filter for the input signal and a high-pass filter for the quantization noise. As a result, most of the quantization noise is shifted to higher frequencies <span class="citation" data-cites="integrated2003demystifying">(<a href="#ref-integrated2003demystifying" role="doc-biblioref">Integrated 2003</a>)</span>. The discrete-time representation highlights the quantization noise shaping effect. The modulator output consists of the input signal plus the difference between consecutive quantization errors, expressed as <span class="math inline">\(e_i - e_{i-1}\)</span>. As the formula shows, the quantization noise is the differnce between the current quantization error <span class="math inline">\(e_i\)</span> and the previous quantization error <span class="math inline">\(e_i-1\)</span>.</p>
+<p>The system is illustrated in the frequency domain in <a href="#fig-first_order_delta_sigma_modulator_frequency_domain" class="quarto-xref">Figure&nbsp;9</a>. It shows that the combination of the integrator and sampling strategy implements a noise-shaping filter on the digital output code. In the frequency domain, the time-domain output pulses appear as the input signal (or spur) and shaped noise. The noise characteristics are the key to understanding the modulator’s frequency operation and the ability of the Delta-Sigma ADC to achieve such high resolution.</p>
+<section id="linear-model" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="linear-model"><span class="header-section-number">3.4.1</span> Linear Model</h3>
+<p>To better understand noise shaping, it is also useful to refer to a linear model.</p>
+<div id="fig-Ideal-linear-model" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Ideal-linear-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/Linear_model.drawio.svg" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Ideal-linear-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16: Ideal linear model
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-Ideal-linear-model" class="quarto-xref">Figure&nbsp;16</a> shows a negative feedback system. Here, <span class="math inline">\(k_q\)</span> refers to the gain factor of the quantization error and can be chosen arbitrarily in the case of a 1-bit quantizer. The model aims to improve the understanding that the goal is to have a frequency-dependent gain. This gain should be infinite at low frequencies so that the NTF has a small magnitude at low frequencies. The lowest-order system with these characteristics is an integrator <span class="citation" data-cites="pavan2017understanding">(<a href="#ref-pavan2017understanding" role="doc-biblioref">Pavan, Schreier, and Temes 2017</a>)</span></p>
+<p>For the system, we see that:</p>
+<p><span class="math display">\[
+Y(z) = 1 X(z) + (1 - z^{-1}) E(z).\tag{8}
+\]</span></p>
+<p>Here, 1 is the signal transfer function (STF), NTF is the noise transfer function. The STF is unity. The NTF, <span class="math inline">\((1 - z^{-1})\)</span>, represents a first-order high-pass response with a transmission zero at dc (<span class="math inline">\(\omega\)</span> <span class="math inline">\(= 0\)</span>, or, <span class="math inline">\(z = 1\)</span>) <span class="citation" data-cites="pavan2017understanding">(<a href="#ref-pavan2017understanding" role="doc-biblioref">Pavan, Schreier, and Temes 2017</a>)</span>.</p>
+<p>This makes sense since the gain of the forward amplifier is infinite at DC. The logarithmic plot of the magnitude response of the NTF in log scale shows the first-order nature of the high-pass response, increasing at a rate of 20 dB per decade <span class="citation" data-cites="pavan2017understanding">(<a href="#ref-pavan2017understanding" role="doc-biblioref">Pavan, Schreier, and Temes 2017</a>)</span>.</p>
+<p><span class="math display">\[
+\text{IBN} = \frac{\Delta^2}{24\pi} \int_{-\frac{\pi}{OSR}}^{\frac{\pi}{OSR}} |(1 - e^{-j\omega})|^2 d\omega
+= \frac{\Delta^2}{12\pi} \int_{0}^{\frac{\pi}{OSR}} 4 \sin^2\left(\frac{\omega}{2}\right) d\omega
+\]</span></p>
+<p><span class="math display">\[
+\approx \frac{\Delta^2}{12\pi} \int_{0}^{\frac{\pi}{OSR}} \omega^2 d\omega
+= \frac{\Delta^2}{36\pi} \frac{\pi^3}{OSR^3}.
+\]</span></p>
+<p>The in-band noise power decreases proportionally to <span class="math inline">\(OSR^{-3}\)</span>. When the oversampling ratio (OSR) is doubled, the in-band noise power reduces by 9 dB, which results in an effective resolution improvement of 1.5 bits. In contrast, basic oversampling without noise shaping only increases resolution by 0.5 bits for each doubling of the OSR. In principle, achieving high accuracy is possible by selecting a sufficiently large <span class="math inline">\(OSR\)</span>. However, combining oversampling with noise shaping significantly reduces the required OSR value. From a spectral perspective, quantization noise is suppressed at lower frequencies and shifted towards higher frequencies through high-pass filtering. This technique characterizes a <em>first-order noise-shaped converter</em>, commonly referred to as a first-order <span class="math inline">\(\Delta\Sigma\)</span> converter <span class="citation" data-cites="pavan2017understanding">(<a href="#ref-pavan2017understanding" role="doc-biblioref">Pavan, Schreier, and Temes 2017</a>)</span>.</p>
+<div id="fig-Single-chain-with-first-order-Delta-Sigma-loop" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Single-chain-with-first-order-Delta-Sigma-loop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/11Mod.drawio.svg" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Single-chain-with-first-order-Delta-Sigma-loop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17: Single chain with first-order Delta-Sigma loop
+</figcaption>
+</figure>
+</div>
+<p>The system diagram of a first-order Sigma-Delta converter is illustrated in <a href="#fig-Single-chain-with-first-order-Delta-Sigma-loop" class="quarto-xref">Figure&nbsp;17</a>. The output consists of the input signal <span class="math inline">\(x\)</span> combined with the quantization error, defined as <span class="math inline">\(e = y - x\)</span>. Consequently,</p>
+<p><span class="math display">\[
+Y(z) = z^{-1} X(z) + (1 - z^{-1}) E(z). \tag{8}
+\]</span></p>
+<p>The quantization error is attenuated in the signal band through first-order noise shaping, characterized by the transfer function <span class="math inline">\((1 - z^{-1})\)</span>, which has a zero at DC <span class="citation" data-cites="pavan2017understanding">(<a href="#ref-pavan2017understanding" role="doc-biblioref">Pavan, Schreier, and Temes 2017</a>)</span>.</p>
 </section>
-<section id="digital-filtering" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="digital-filtering"><span class="header-section-number">2.3</span> Digital Filtering</h2>
 </section>
-<section id="decimation" class="level2 unnumbered" data-number="2.4">
+<section id="second-order-delta-sigma-modulation" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="second-order-delta-sigma-modulation"><span class="header-section-number">3.5</span> Second-Order Delta-Sigma Modulation</h2>
+<p>A modulator that integrates the input signal twice instead of just once is an effective way to reduce in-band quantization noise. <a href="#fig-second-order-delta-sigma-modulator" class="quarto-xref">Figure&nbsp;18</a> illustrates a 1-bit, second-order modulator that uses two integrators instead of one. In this case, the noise term depends not only on the previous error but also on the two preceding errors.</p>
+<div id="fig-second-order-delta-sigma-modulator" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-second-order-delta-sigma-modulator-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/22Mod.drawio.svg" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-second-order-delta-sigma-modulator-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18: Second-order Delta-Sigma modulator
+</figcaption>
+</figure>
+</div>
+<p>Increasing the resolution and the effective number of bits (ENOB) in a delta-sigma modulator can be achieved by incorporating an additional integrator and feedback path. A linearized analysis in this scenario leads to the expression:</p>
+<p><span class="math display">\[
+Y(z) = z^{-1} X(z) + (1 - z^{-1})^2E(z). \tag{9}
+\]</span></p>
+<p>This shows that the noise transfer function (NTF) takes the form (1 - z<sup>{-1})</sup>2 in the z-domain, applying a shaping function of (2 sin(ω/2))^4 to the power spectral density (PSD). As a result, doubling the oversampling ratio (OSR) leads to an increase of approximately 2.5 bits in resolution. This is a significantly better trade-off compared to a first-order modulator.</p>
+<p>By incorporating more integrators and feedback branches within the loop, it is possible to achieve higher-order noise transfer functions. In the case of an L-th order loop filter, the NTF follows the form:</p>
+<p><span class="math display">\[
+NTF(z) = (1 - z^{-1})^L. \tag{10}
+\]</span></p>
+<p>Under these conditions, the in-band noise power is given by:</p>
+<p><span class="math display">\[
+IBN = \frac{\pi^{2L} e^2_{rms}}{(2L + 1) OSR^{2L+1}}. \tag{11}
+\]</span></p>
+<p>Furthermore, doubling the OSR increases the resolution by approximately (L + 0.5) bits.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="The Trade-Offs of High-Order Delta-Sigma Modulators">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The Trade-Offs of High-Order Delta-Sigma Modulators
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The previous discussion suggests that a delta-sigma loop with a carefully chosen, very high-order NTF could, in theory, achieve exceptionally high performance. However, if something sounds too good to be true, it probably is. In practice, high-order loops introduce stability challenges that have not been considered so far. These limitations reduce the achievable resolution to a lower value than the theoretical predictions.</p>
+<p>Moreover, second- and higher-order modulators come with additional drawbacks, including increased complexity, multiple feedback loops, and greater design difficulty.</p>
+</div>
+</div>
+</section>
+<section id="digital-filtering" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="digital-filtering"><span class="header-section-number">3.6</span> Digital Filtering</h2>
+<p>Das 1-bit pwm signal ist für weitere analysen nicht geeignet. Für audioanwendungen verwenden. um audiotreiber zu versorgen. das man das pwm signal als mp3 signal quasi sehen kann und direkt damit eine audiostufe treiben kann. erstmal für analyse nicht praktisch.</p>
+<p>The undesirable characteristics of the modulator output include high-frequency noise and a high-speed, 1-bit output rate. Once the signal is in the digital domain, a low-pass digital filter can be applied to attenuate the high-frequency noise, while a decimator filter can be used to reduce the output data rate <span class="citation" data-cites="baker2011delta">(<a href="#ref-baker2011delta" role="doc-biblioref">B. Baker 2011a</a>)</span>.</p>
+<p>The digital filter function applies a low-pass filter by first sampling the 1-bit data stream from the modulator. An averaging filter is the most commonly used technique in sigma-delta converters <span class="citation" data-cites="baker2011delta">(<a href="#ref-baker2011delta" role="doc-biblioref">B. Baker 2011a</a>)</span>.</p>
+<p>A down-sampler retains every <span class="math inline">\(M\)</span>-th sample of the input sequence and removes the <span class="math inline">\(M\)</span> - 1 intermediate samples to generate the output sequence. By removing samples, down-sampling increases the sampling period.</p>
+<p>If the input sampling rate is defined as <span class="math inline">\(F_T = \frac{1}{T}\)</span>, then the output sampling rate <span class="math inline">\(F_M\)</span> is related to <span class="math inline">\(F_T\)</span> as follows:</p>
+<p><span class="math display">\[
+F_M = \frac{1}{T_M} = \frac{1}{M T} = \frac{F_T}{M} \tag{12}
+\]</span></p>
+<p>This means that the sampling rate is reduced by a factor of <span class="math inline">\(1/M\)</span>, meaning that after down-sampling, the new sampling frequency is a fraction of the original rate.</p>
+<p>It is also important to examine the frequency-domain relation of a down-sampler. The relationship between input and output in the z-transform domain can be determined by substituting the expression for (X_{}(z)) into (Y(z) = X_{}(z^{1/M})), which results in:</p>
+<p><span class="math display">\[
+Y(z) = \frac{1}{M} \sum_{k=0}^{M-1} X\left(z^{1/M} W_M^k\right) \tag{13}
+\]</span></p>
+<p>This equation shows that the output spectrum consists of a sum of <span class="math inline">\(M\)</span> stretched and shifted copies of the input spectrum, scaled by a factor of <span class="math inline">\(1/M\)</span>.</p>
+<p>The output spectrum of a down-sampler with a factor of <span class="math inline">\(M\)</span> is given by:</p>
+<p><span class="math display">\[
+Y(e^{j\omega}) = \frac{1}{M} \sum_{k=0}^{M-1} X\left(e^{j(\omega - 2\pi k)/M}\right) \tag{14}
+\]</span></p>
+<p>Aliasing in <span class="math inline">\(Y(e^{j\omega})\)</span> is completely avoided if and only if:</p>
+<p><span class="math display">\[
+X(e^{j\omega}) = 0 \quad \text{for} \quad \frac{\pi}{M} \leq |\omega| \leq \pi \tag{15}
+\]</span></p>
+<p>This means that <span class="math inline">\(x[n]\)</span> must be band-limited to <span class="math inline">\(\pm \pi / M\)</span>.</p>
+</section>
+<section id="decimation" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="decimation"><span class="header-section-number">3.7</span> Decimation</h2>
+</section>
+</section>
+<section id="implementation-and-analysis-of-behavior-with-matlab-and-simulink" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Implementation and Analysis of Behavior with MATLAB and Simulink</h1>
+<section id="system-design" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="system-design"><span class="header-section-number">4.1</span> System Design</h2>
+<p>To start with the system design and the analyze of the behaviour the following block diagram in <a href="#fig-Block-diagram-of-the-2nd-order-modulator-in-Simulink" class="quarto-xref">Figure&nbsp;19</a> is shown. The modulator topology is a standard CIFB (cascade of integrators, feedback) structure <span class="citation" data-cites="schreier2005understanding">(<a href="#ref-schreier2005understanding" role="doc-biblioref">Schreier, Temes, et al. 2005</a>)</span>.</p>
+<div id="fig-Block-diagram-of-the-2nd-order-modulator-in-Simulink" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Block-diagram-of-the-2nd-order-modulator-in-Simulink-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/mod2_matlab.png" class="img-fluid figure-img" style="width:75.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Block-diagram-of-the-2nd-order-modulator-in-Simulink-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19: Block diagram of the 2nd-order modulator in Simulink
+</figcaption>
+</figure>
+</div>
+<p>In this model, the parameters are defined as follows:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Specification</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>System Order (L)</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>Modulator Topology (form)</td>
+<td>CIFB</td>
+</tr>
+<tr class="odd">
+<td>Optimization (opt)</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Quantizer Levels (nLev)</td>
+<td>2 (1‑Bit)</td>
+</tr>
+<tr class="odd">
+<td>Sampling Frequency (f_s)</td>
+<td>220 kHz</td>
+</tr>
+<tr class="even">
+<td>Sampling Time (T_s)</td>
+<td>1 / f_s</td>
+</tr>
+<tr class="odd">
+<td>Oversampling Ratio (OSR, M)</td>
+<td>512</td>
+</tr>
+<tr class="even">
+<td>Simulation Length (N)</td>
+<td>16 × M = 8192</td>
+</tr>
+<tr class="odd">
+<td>Bandwidth (f_B)</td>
+<td>f_s / (2 × M) ≈ 215 Hz</td>
+</tr>
+<tr class="even">
+<td>Sinus Test Cycles</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td>Sinus Frequency (f_x)</td>
+<td>cycles × f_s / N</td>
+</tr>
+<tr class="even">
+<td>Test Signal Amplitude (A)</td>
+<td>0.8</td>
+</tr>
+<tr class="odd">
+<td>Time Vector (t)</td>
+<td>T_s × [0 … N–1]</td>
+</tr>
+<tr class="even">
+<td>Input Signal (u)</td>
+<td>A · sin(2π · f_x/f_s · [0 … N–1])</td>
+</tr>
+</tbody>
+</table>
+<p>In this model, the parameter <strong>L</strong> is set to 2, indicating that the DSM is of second order. The topology is defined by <strong>form = ‘CIFB’</strong>, which specifies the Cascade of Integrator Feedback configuration — a standard structure for delta-sigma designs. The parameters <strong>fs</strong> and <strong>Ts</strong> denote the sampling frequency and sampling period, respectively. The oversampling ratio is determined by <strong>M = 512</strong>, while the simulation length—and consequently the number of FFT points—is set by <strong>N = 16 × M</strong>. Finally, <strong>u</strong> represents the sinusoidal input signal for the modulator.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">%% Design NTF</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">H</span> <span class="op">=</span> <span class="va">synthesizeNTF</span>(<span class="va">L</span><span class="op">,</span> <span class="va">M</span><span class="op">,</span> <span class="va">opt</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>[<span class="va">a</span><span class="op">,</span> <span class="va">g</span><span class="op">,</span> <span class="va">b</span><span class="op">,</span> <span class="va">c</span>] <span class="op">=</span> <span class="va">realizeNTF</span>(<span class="va">H</span><span class="op">,</span> <span class="va">form</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">b</span>(<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>) <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="va">ABCD</span> <span class="op">=</span> <span class="va">stuffABCD</span>(<span class="va">a</span><span class="op">,</span> <span class="va">g</span><span class="op">,</span> <span class="va">b</span><span class="op">,</span> <span class="va">c</span><span class="op">,</span> <span class="va">form</span>)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>[<span class="va">ABCDs</span><span class="op">,</span> <span class="va">umax</span>] <span class="op">=</span> <span class="va">scaleABCD</span>(<span class="va">ABCD</span>)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>[<span class="va">a</span><span class="op">,</span> <span class="va">g</span><span class="op">,</span> <span class="va">b</span><span class="op">,</span> <span class="va">c</span>] <span class="op">=</span> <span class="va">mapABCD</span>(<span class="va">ABCDs</span><span class="op">,</span> <span class="va">form</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>SynthesizeNTF(L, M, opt, 2) designs the noise-transfer function polynomial (NTF) based on the modulator order <strong>L</strong>, the oversampling ratio <strong>M</strong>, and additional parameters. The function realizeNTF(H, form) generates specific coefficients (<strong>a</strong>, <strong>g</strong>, <strong>b</strong>, <strong>c</strong>) for the chosen topology (CIFB). The operation <code>b(2:end) = 0</code> sets certain feedback paths to zero, often for simplification or demonstration purposes. Subsequently, the functions stuffABCD(…), scaleABCD(…), and mapABCD(…) transform and scale the state-space representation of the modulator (the ABCD matrix) to achieve a more favorable implementation, such as reducing the signal levels in the integrators. The result is a complete modulator design that can be used in Simulink or a discrete model.</p>
+<p>The simulation produces time-domain data corresponding to the integrator outputs and the quantized (PWM) output of the modulator. In the time-domain analysis, the input sinusoidal signal u is compared with the modulated output v. By plotting these signals together, as shown in, one can observe the modulation behavior and how well the input signal is tracked despite the quantization process.</p>
+<p>To assess the noise shaping characteristics of the DSM, the Fast Fourier Transform (FFT) of the quantized output v is computed. The magnitude spectrum is normalized and converted to decibels relative to full-scale (dBFS). This frequency-domain analysis highlights the spectral distribution of quantization noise, which is predominantly pushed out of the signal band:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">%% Frequency-Domain Analysis</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">sq</span> <span class="op">=</span> <span class="va">abs</span>(<span class="va">fft</span>(<span class="va">v</span>))<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">f</span> <span class="op">=</span> [<span class="fl">0</span><span class="op">:</span><span class="va">N</span><span class="op">/</span><span class="fl">2</span><span class="op">-</span><span class="fl">1</span>] <span class="op">/</span> <span class="va">N</span><span class="op">;</span>       <span class="co">% Frequency vector (normalized to fs)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="va">sq_hlf</span> <span class="op">=</span> <span class="va">sq</span>(<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">/</span><span class="fl">2</span>) <span class="op">/</span> (<span class="va">N</span><span class="op">/</span><span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="va">sqdBFS</span> <span class="op">=</span> <span class="fl">20</span> <span class="op">*</span> <span class="va">log10</span>(<span class="va">sq_hlf</span>)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">% Correction for log10(0)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="va">sqdBFS</span>(<span class="va">isinf</span>(<span class="va">sqdBFS</span>)) <span class="op">=</span> <span class="op">-</span><span class="fl">150</span><span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span><span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="va">plot</span>(<span class="va">f</span><span class="op">,</span> <span class="va">sqdBFS</span><span class="op">,</span> <span class="ss">'linewidth'</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'Frequency f/fs'</span>)<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'Magnitude (dBFS)'</span>)<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="va">title</span>(<span class="ss">'Spectral Analysis of the DSM Output'</span>)<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="va">grid</span> <span class="va">on</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The result of the modulator can be seen in <a href="#fig-PWM_Output" class="quarto-xref">Figure&nbsp;20</a> above. The modulator converts the analog input signal into a high-speed, single-bit, pulse-width modulated waveform. However, the modulator output has certain drawbacks, including high-frequency noise and a fast 1-bit output rate. Once the signal is in the digital domain, a low-pass digital filter can be applied to reduce high-frequency noise, while a decimator filter can be used to decrease the output data rate.</p>
+<div id="fig-PWM_Output" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-PWM_Output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/PWM_Output.svg" class="img-fluid figure-img" style="width:75.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-PWM_Output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;20: 2nd Order Sigma-Delta Modulator Output
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Applications of PWM Signals">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Applications of PWM Signals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>PWM is widely used in various applications due to its efficiency in controlling power and signal transmission. In audio applications, PWM is employed in Class-D amplifiers, where the modulated signal directly drives the speaker. It is also utilized in digital-to-analog conversion (DAC), particularly in pulse-density modulation (PDM)-based systems like DSD (Direct Stream Digital) audio. Furthermore, PWM plays a crucial role in motor control and power regulation, enabling precise adjustments in speed and energy efficiency.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="switched-capacitor" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Switched Capacitor</h1>
+<p>Switched capacitor (SC) circuits play a fundamental role in modern mixed-signal systems, particularly in the implementation of high-performance ADCs. By replacing traditional resistors with switches and capacitors, SC circuits offer precise and controllable analog signal processing using standard CMOS technology. This makes them highly suitable for integration in low-power, high-accuracy applications.</p>
+<p>The core principle of a switched capacitor circuit is based on the controlled transfer of charge between capacitors through electronic switches. These switches are typically driven by non-overlapping clock phases that define the sampling (track) and holding intervals. During the track phase, the switch closes, allowing the capacitor to sample and store the input voltage. Once the switch opens (hold phase), the stored charge represents the sampled value, which can then be processed or transferred further along the signal chain. This sample-and-hold functionality is a critical building block for discrete-time signal processing.</p>
+<p>In essence, switched capacitor circuits emulate the behavior of resistors by controlling the rate at which charge is moved between nodes. The equivalent resistance is determined by the capacitance value and the switching frequency. As a result, SC circuits provide highly accurate and stable performance that is less sensitive to process variations, temperature, and voltage changes compared to traditional resistor-based circuits.</p>
+<p>Switched capacitor techniques are widely employed in integrators, filters, and analog-to-digital conversion stages, such as the integrator loops of Sigma-Delta ADCs. These circuits benefit from their compatibility with digital control logic, making them an essential component in modern integrated circuit design.</p>
+<hr>
+<section id="clock-phases-in-switched-capacitor-circuits" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="clock-phases-in-switched-capacitor-circuits"><span class="header-section-number">5.1</span> Clock Phases in Switched Capacitor Circuits</h2>
+<p>Switched capacitor circuits rely heavily on precise timing signals to control the switching events. Typically, two non-overlapping clock signals, denoted as Φ₁ and Φ₂, are used to drive the switches. These two clock phases ensure that switches are never simultaneously closed, which would otherwise create short circuits and result in charge sharing errors.</p>
+<section id="non-overlapping-clock-phases" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="non-overlapping-clock-phases"><span class="header-section-number">5.1.1</span> Non-overlapping Clock Phases</h3>
+<p>In Figure 1, the basic waveforms of Φ₁ and Φ₂ are shown. Φ₁ is high during one period while Φ₂ remains low. After Φ₁ transitions to low, Φ₂ becomes high. This non-overlapping behavior is essential for reliable charge transfer in switched capacitor circuits.</p>
+<p><img src="figures/clock.drawio.png" class="img-fluid" alt="Non-Overlapping Clock Phases"><br>
+<em>Figure 1: Non-overlapping clock phases Φ₁ and Φ₂.</em></p>
+<p>These clock phases alternate, controlling the sampling and transfer of charge between nodes. The duration of the clock period and its frequency directly affect the equivalent resistance of the switched capacitor circuit. Specifically, the equivalent resistance R_eq can be described as:</p>
+<p><span class="math display">\[
+R_{eq} = \frac{1}{f \cdot C}
+\]</span></p>
+<p>Where <strong>f</strong> is the clock frequency, and <strong>C</strong> is the value of the switched capacitor.</p>
+<hr>
+</section>
+</section>
+<section id="timing-diagrams-for-switched-capacitor-operation" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="timing-diagrams-for-switched-capacitor-operation"><span class="header-section-number">5.2</span> Timing Diagrams for Switched Capacitor Operation</h2>
+<p>Understanding the timing behavior of Φ₁ and Φ₂ in different clocking schemes is essential for accurate circuit operation. In Figure 2, we see an extended timing diagram of Φ₁ and Φ₂ that emphasizes their non-overlapping nature over multiple cycles.</p>
+<p>This timing control prevents both switches from conducting at the same time, thereby avoiding charge injection errors and signal corruption. Such precision in clock phase control is a defining feature of CMOS-based SC implementations.</p>
+<p><img src="figures/clock2.drawio.png" class="img-fluid" alt="Timing Diagram of Clock Phases"><br>
+<em>Figure 2: Timing diagram of non-overlapping clock phases Φ₁ and Φ₂ over multiple cycles.</em></p>
+<p>The rise and fall times, as well as the phase separation, are carefully designed in modern integrated circuits to minimize clock feedthrough and other non-ideal effects.</p>
+<hr>
+</section>
+<section id="basic-switched-capacitor-circuit-operation" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="basic-switched-capacitor-circuit-operation"><span class="header-section-number">5.3</span> Basic Switched Capacitor Circuit Operation</h2>
+<p>The simplest switched capacitor circuit, as shown in Figure 3, consists of two switches and one capacitor. This configuration serves as a charge pump, moving charge from an input node to an output node in discrete time intervals controlled by the clock phases Φ₁ and Φ₂.</p>
+<section id="operating-principle" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="operating-principle"><span class="header-section-number">5.3.1</span> Operating Principle</h3>
+<ol type="1">
+<li>During Φ₁, switch S₁ is closed, allowing the capacitor C₁ to charge up to the input voltage V₁.</li>
+<li>During Φ₂, switch S₁ opens and switch S₂ closes, transferring the stored charge from the capacitor to the output node V₂.</li>
+</ol>
+<p>This charge transfer process effectively samples the input signal and transfers its equivalent charge to the next stage. The circuit emulates the behavior of a resistor by relating the transferred charge to the voltage difference and the switching frequency.</p>
+<p>The operation of this circuit can be explained using charge conservation:</p>
+<p><span class="math display">\[
+Q = C \cdot V
+\]</span></p>
+<p>The charge transferred per cycle depends on the input voltage and the capacitance, while the average current is given by:</p>
+<p><span class="math display">\[
+I_{avg} = \frac{Q}{T} = C \cdot V \cdot f
+\]</span></p>
+<p>This explains how the circuit behaves like a resistor with resistance 1 / (C · f).</p>
+<p><img src="figures/SC.drawio.png" class="img-fluid" alt="Basic Switched Capacitor Circuit"><br>
+<em>Figure 3: Basic switched capacitor circuit with two switches and one capacitor.</em></p>
+<p>By employing non-overlapping clock signals and discrete charge sampling, SC circuits successfully replicate the behavior of passive resistor networks in integrated circuits.</p>
+<p>Such designs form the foundation of analog filters, integrators, and ADC building blocks, especially in Sigma-Delta modulation schemes. Understanding these fundamentals allows for the design and implementation of low-power, high-precision, and scalable analog signal processing systems.</p>
+</section>
+</section>
+<section id="ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="ltspice-simulation-of-an-idealized-second-order-sigma-delta-modulator"><span class="header-section-number">5.4</span> LTSpice Simulation of an Idealized Second-Order Sigma-Delta Modulator</h2>
+<p>In this section, the behavior of an idealized second-order Sigma-Delta (ΔΣ) modulator is demonstrated using an LTSpice simulation. The purpose of this simulation is to validate the fundamental operation of the switched capacitor stages and integrator loops prior to implementing a more realistic circuit.</p>
+<p>The model consists of two cascaded switched capacitor integrator stages, followed by a comparator and a digital feedback path. The switched capacitor stages are configured to emulate integrators, where the charge transfer mechanism accurately models the behavior of continuous-time integrators in a discrete-time domain.</p>
+<p>The schematic shown in <strong>Figure X</strong> represents the complete simulation setup implemented in LTSpice. The primary blocks in this design are: - <strong>Switched Capacitor Integrators</strong>: Each integrator is implemented using an ideal operational amplifier model and switched capacitors that mimic charge transfer. The capacitors <strong>Cs1/Ci1</strong> and <strong>Cs2/Ci2</strong> define the integrator characteristics and influence the loop filter coefficients. - <strong>Clock Phases (Φ₁ and Φ₂)</strong>: Two non-overlapping clock signals control the timing of the switches. These clock signals are generated by voltage sources modeled as <strong>pulse generators</strong> in LTSpice, ensuring the correct timing and preventing overlap, which is critical to avoid signal corruption. - <strong>Comparator</strong>: An ideal comparator converts the analog output of the second integrator stage into a digital logic level. - <strong>Feedback Path</strong>: The output of the comparator is fed back into the modulator, closing the loop. The feedback ensures stability and noise shaping, both characteristic behaviors of ΣΔ modulators. - <strong>D Flip-Flop</strong>: The comparator output passes through a D Flip-Flop to synchronize the output with the system clock, ensuring stable digital outputs.</p>
+<p><img src="figures/dsm_l2.png" class="img-fluid" alt="LTSpice Simulation of Second-Order Sigma-Delta Modulator"><br>
+<em>Figure X: LTSpice simulation schematic of an idealized second-order Sigma-Delta modulator.</em></p>
+<hr>
+<section id="key-components-and-operation" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="key-components-and-operation"><span class="header-section-number">5.4.1</span> Key Components and Operation</h3>
+<p><strong>Clock Phase Control:</strong> The simulation uses <strong>ideal switches</strong> controlled by two non-overlapping clock phases <strong>Φ₁</strong> and <strong>Φ₂</strong> at a frequency of 220 kHz. These clocks are modeled with pulse generators and are configured to ensure there is no overlap. This guarantees that charge transfer occurs without any unintended charge sharing or signal corruption.</p>
+<p><strong>Switched Capacitor Stages:</strong> Each switched capacitor stage consists of: - Sampling capacitors <strong>Cs1</strong> and <strong>Cs2</strong>. - Integration capacitors <strong>Ci1</strong> and <strong>Ci2</strong>. - A set of four switches per stage that perform the sampling and integration steps.</p>
+<p>The switched capacitor integrators convert the input voltage signal into a charge packet transferred at each clock cycle. This process allows the integrator stages to perform accurate discrete-time integration, critical for the loop filter performance in a ΣΔ modulator.</p>
+<p><strong>Operational Amplifiers:</strong> The integrators are idealized as operational transconductance amplifiers (OTAs), realized in LTSpice as voltage-controlled current sources. In the ideal model, the OTA provides a linear response across the full input range. In practical designs, care must be taken to ensure that the OTA does not enter saturation, which would otherwise violate the assumptions made in this idealized simulation.</p>
+<p><strong>Comparator and Feedback:</strong> The second integrator’s output is connected to an ideal comparator. Its digital output is fed back through the feedback path to both integrator stages. This feedback enforces the quantization noise shaping inherent to ΣΔ modulators.</p>
+<p><strong>Simulation Setup:</strong> The simulation parameters include: - Power supply voltage <strong>VDD = 1.5 V</strong> - Common-mode voltage <strong>VCM = 0.75 V</strong> - Input signal: A sine wave with an amplitude of <strong>0.5 V</strong> centered at <strong>VCM</strong> - Capacitor values: - <strong>Cs1 = 1 pF</strong>, <strong>Ci1 = 6 pF</strong> - <strong>Cs2 = 1 pF</strong>, <strong>Ci2 = 3 pF</strong></p>
+<p>The transient simulation runs for <strong>30 ms</strong>, capturing all relevant node voltages such as <strong>vx1</strong>, <strong>vx2</strong>, <strong>vq</strong>, and <strong>vd</strong>.</p>
+<hr>
+<p>This LTSpice simulation demonstrates the core functionality of an idealized second-order Sigma-Delta modulator, including: - Precise clock phase control to prevent signal corruption. - Switched capacitor integrator stages emulating discrete-time integration. - Quantization feedback ensuring noise shaping and high-resolution analog-to-digital conversion.</p>
+<p>This model serves as a foundation for developing more realistic circuits, where non-idealities such as switch resistance, parasitic capacitance, and finite OTA gain are considered.</p>
+</section>
+</section>
+<section id="output-signals-of-the-first-and-second-integrator-stages" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="output-signals-of-the-first-and-second-integrator-stages"><span class="header-section-number">5.5</span> Output Signals of the First and Second Integrator Stages</h2>
+<p>Following the LTSpice simulation of the idealized second-order Sigma-Delta modulator, the voltage outputs of the first and second integrator stages were analyzed. These signals provide crucial insight into the operation and dynamic behavior of the modulator’s loop filter.</p>
+<p>The voltage waveform <strong>V(vx1)</strong> represents the output of the first integrator, while <strong>V(vx2)</strong> corresponds to the output of the second integrator. Both signals are critical in understanding the internal signal processing and how the modulator shapes the quantization noise.</p>
+<section id="integrator-1-output---vvx1" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="integrator-1-output---vvx1"><span class="header-section-number">5.5.1</span> Integrator 1 Output - V(vx1)</h3>
+<p>The output of the first integrator, <strong>V(vx1)</strong>, shows the integration of the input signal combined with the feedback from the quantizer. The integrator accumulates charge, resulting in a signal that closely follows the low-frequency components of the input while reacting to the feedback signal to suppress quantization noise within the signal band.</p>
+<p>The waveform of <strong>V(vx1)</strong> demonstrates: - A smoother signal profile compared to the input, due to its integration function. - Oscillations introduced by the feedback loop as the system attempts to keep the quantization error shaped and controlled.</p>
+</section>
+<section id="integrator-2-output---vvx2" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="integrator-2-output---vvx2"><span class="header-section-number">5.5.2</span> Integrator 2 Output - V(vx2)</h3>
+<p>The output of the second integrator, <strong>V(vx2)</strong>, exhibits an even higher degree of integration. It represents the second accumulation in the cascade, further enhancing the low-pass filtering effect of the loop filter. This output typically shows: - A stronger suppression of high-frequency components. - More pronounced signal swings, as the second integrator amplifies the difference between the first integrator’s output and the feedback signal from the comparator.</p>
+<p>The dynamic range of <strong>V(vx2)</strong> is larger than that of <strong>V(vx1)</strong>, illustrating the additional integration stage’s impact. The output of the second integrator directly feeds into the quantizer (comparator), making its behavior essential to achieving the desired noise shaping properties.</p>
+</section>
+<section id="output-waveforms-visualization" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="output-waveforms-visualization"><span class="header-section-number">5.5.3</span> Output Waveforms Visualization</h3>
+<p>The time-domain waveforms for both integrator outputs are shown in <strong>Figure X</strong> below. The x-axis represents the simulation time (0 ms to 30 ms), while the y-axis represents the output voltages of the two integrators. The distinct differences in the signal shapes illustrate the successive integration performed by each stage.</p>
+<p><img src="figures/Output1_2.png" class="img-fluid" alt="Integrator Outputs of the Sigma-Delta Modulator"><br>
+<em>Figure X: LTSpice simulation results showing the outputs of the first integrator V(vx1) and second integrator V(vx2).</em></p>
+</section>
+<section id="interpretation-of-results" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="interpretation-of-results"><span class="header-section-number">5.5.4</span> Interpretation of Results</h3>
+<p>The key observations from these output signals are: - The first integrator output <strong>V(vx1)</strong> follows the integrated input and feedback signals, acting as the first stage of the loop filter.</p>
+<ul>
+<li><p>The second integrator output <strong>V(vx2)</strong> provides a deeper integration, smoothing out the signal further and preparing it for quantization.</p></li>
+<li><p>Both outputs confirm the correct operation of the switched capacitor integrator stages and validate the simulation model.</p></li>
+</ul>
+<p>The correct functioning of these integrators is fundamental to ensuring the modulator shapes quantization noise effectively. In a practical implementation, the design of these integrators would have to consider non-idealities such as finite OTA gain, thermal noise, and parasitic capacitances. However, for this idealized simulation, the results closely match the expected theoretical behavior.</p>
 
-
 </section>
 </section>
+</section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">2.4 Decimation</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Analog_ADXL335" class="csl-entry" role="listitem">
+Analog Devices. 2019. <em>ADXL335: Small, Low Power, 3-Axis ±3 g Accelerometer</em>. <a href="https://www.analog.com/en/products/adxl335.html">https://www.analog.com/en/products/adxl335.html</a>.
+</div>
 <div id="ref-bajdechi2004systematic" class="csl-entry" role="listitem">
 Bajdechi, Ovidiu. 2004. <span>“Systematic Design of Sigma-Delta Analog-to-Digital Converters.”</span> In <em>Analog Circuit Design: Sensor and Actuator Interface Electronics, Integrated High-Voltage Electronics and Power Management, Low-Power and High-Resolution ADC’s</em>, edited by Michiel Steyaert, Arthur H. M. van Roermund, and Herman Casier, 293–326. Springer. <a href="https://doi.org/10.1007/978-1-4020-7997-5_13">https://doi.org/10.1007/978-1-4020-7997-5_13</a>.
+</div>
+<div id="ref-baker2011delta" class="csl-entry" role="listitem">
+Baker, Bonnie. 2011a. <span>“How Delta-Sigma ADCs Work, Part 1.”</span> <em>Analog Applications</em> 7: 0000000.
+</div>
+<div id="ref-baker2011deltasigma" class="csl-entry" role="listitem">
+———. 2011b. <span>“How Delta-Sigma ADCs Work, Part 1 (Rev. a).”</span> <em>Analog Applications Journal</em> 3Q. <a href="http://www.ti.com/aaj">http://www.ti.com/aaj</a>.
+</div>
+<div id="ref-Baker2008" class="csl-entry" role="listitem">
+Baker, R. Jacob. 2008. <em>CMOS: Circuit Design, Layout, and Simulation</em>. Wiley-IEEE Press. <a href="https://www.wiley.com/en-us/CMOS%3A+Circuit+Design%2C+Layout%2C+and+Simulation%2C+3rd+Edition-p-9780470290260">https://www.wiley.com/en-us/CMOS%3A+Circuit+Design%2C+Layout%2C+and+Simulation%2C+3rd+Edition-p-9780470290260</a>.
 </div>
 <div id="ref-Boser1988" class="csl-entry" role="listitem">
 Boser, B. E., and B. A. Wooley. 1988. <span>“The Design of Sigma-Delta Modulation Analog-to-Digital Converters.”</span> <em>IEEE Journal of Solid-State Circuits</em> 23 (6): 1298–308. <a href="https://doi.org/10.1109/4.90025">https://doi.org/10.1109/4.90025</a>.
@@ -314,8 +952,17 @@ Boser, B. E., and B. A. Wooley. 1988. <span>“The Design of Sigma-Delta Modulat
 <div id="ref-Clifford2016" class="csl-entry" role="listitem">
 Clifford, Michael. 2016. <span>“Fundamental Principles Behind the Sigma-Delta ADC Topology: Part 1.”</span> Analog Devices (AD). <a href="https://www.analog.com/en/resources/technical-articles/behind-the-sigma-delta-adc-topology.html">https://www.analog.com/en/resources/technical-articles/behind-the-sigma-delta-adc-topology.html</a>.
 </div>
+<div id="ref-Dobkin2011" class="csl-entry" role="listitem">
+Dobkin, Bob, and Jim Williams. 2011. <em>Analog Circuit Design: A Tutorial Guide to Applications and Solutions</em>. Elsevier/Newnes. <a href="https://www.elsevier.com/books/analog-circuit-design/dobkin/978-0-12-385185-7">https://www.elsevier.com/books/analog-circuit-design/dobkin/978-0-12-385185-7</a>.
+</div>
 <div id="ref-goldenbaum2022grundlagen" class="csl-entry" role="listitem">
 Goldenbaum, Prof. Dr.-Ing. Mario. 2022. <em>Grundlagen Der Informationstechnik</em>.
+</div>
+<div id="ref-integrated2003demystifying" class="csl-entry" role="listitem">
+Integrated, Maxim. 2003. <span>“Demystifying Delta-Sigma ADCs.”</span> Tutorial 1870. Maxim Integrated.
+</div>
+<div id="ref-kester2005data" class="csl-entry" role="listitem">
+Kester, Walt. 2005. <em>The Data Conversion Handbook</em>. Burlington, MA: Newnes/Elsevier.
 </div>
 <div id="ref-meyer2019kommunikationstechnik" class="csl-entry" role="listitem">
 Meyer, Martin. 2019. <em>Kommunikationstechnik: Konzepte Der Modernen Nachrichtenübertragung</em>. Wiesbaden: Springer Vieweg.
@@ -328,6 +975,15 @@ Rosa, Jose M. de la. 2011. <span>“Sigma-Delta Modulators: Tutorial Overview, D
 </div>
 <div id="ref-delarosa2013" class="csl-entry" role="listitem">
 Rosa, Jose M. de la, and Rocío del Río. 2013. <em>CMOS Sigma-Delta Converters: Practical Design Guide</em>. John Wiley &amp; Sons, Ltd. https://doi.org/<a href="https://doi.org/10.1002/9781118569221">https://doi.org/10.1002/9781118569221</a>.
+</div>
+<div id="ref-schreier2005understanding" class="csl-entry" role="listitem">
+Schreier, Richard, Gabor C Temes, et al. 2005. <em>Understanding Delta-Sigma Data Converters</em>. Vol. 74. IEEE press Piscataway, NJ.
+</div>
+<div id="ref-Techrm_ESP8266" class="csl-entry" role="listitem">
+Techrm. 2022. <span>“Come Realizzare Un Datalogger Con La NodeMCU ESP8266 Collegata All’arduino Cloud.”</span> 2022. <a href="https://www.techrm.com/it/come-realizzare-un-datalogger-con-la-nodemcu-esp8266-collegata-all-arduino-cloud/">https://www.techrm.com/it/come-realizzare-un-datalogger-con-la-nodemcu-esp8266-collegata-all-arduino-cloud/</a>.
+</div>
+<div id="ref-TI_ADS1115" class="csl-entry" role="listitem">
+Texas Instruments. 2015. <em>ADS1115: Ultra-Small, Low-Power, I2C-Compatible, 860-SPS, 16-Bit ADC with Internal Reference, Oscillator, and PGA</em>. <a href="https://www.ti.com/product/ADS1115">https://www.ti.com/product/ADS1115</a>.
 </div>
 <div id="ref-williams2006electronic" class="csl-entry" role="listitem">
 Williams, Arthur, and Fred J. Taylor. 2006. <em>Electronic Filter Design Handbook, Fourth Edition</em>. 4th ed. McGraw-Hill Professional.
