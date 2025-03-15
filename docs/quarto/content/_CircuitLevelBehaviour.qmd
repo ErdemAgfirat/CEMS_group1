@@ -170,12 +170,8 @@ The key observations from these output signals are:
 
 The correct functioning of these integrators is fundamental to ensuring the modulator shapes quantization noise effectively. In a practical implementation, the design of these integrators would have to consider non-idealities such as finite OTA gain, thermal noise, and parasitic capacitances. However, for this idealized simulation, the results closely match the expected theoretical behavior.
 
-
-
-
 ## Area Efficiency and Frequency Control in Switched Capacitor Circuits
-
-Switched capacitor circuits offer a significant advantage when it comes to realizing large and precise resistances on-chip. Unlike continuous-time RC filters, which require physically large resistors to achieve low-frequency operation, switched capacitor circuits can emulate resistances through controlled charge transfer, depending only on the clock frequency and the capacitor value. This technique allows designers to achieve high accuracy and area efficiency.
+One of the main challenges is implementing large and accurate resistances without consuming excessive silicon area. Unlike continuous-time RC filters, which require physically large resistors to achieve low-frequency operation, switched capacitor circuits can emulate resistances through controlled charge transfer, depending only on the clock frequency and the capacitor value. This technique allows designers to achieve high accuracy and area efficiency.
 
 The schematic shown in **Figure X** illustrates a basic switched capacitor structure controlled by non-overlapping clock phases Φ₁ and Φ₂. During Φ₁, the capacitor is connected to the input, allowing it to charge. During Φ₂, the charge is transferred to the output. This operation is equivalent to moving discrete packets of charge, simulating the current that would flow through a resistor.
 
